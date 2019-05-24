@@ -1,0 +1,28 @@
+body, main {
+    width: 100%;
+}
+
+header {
+    background-color: var(--primary-color);
+    padding: 1em 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    color: #fff;
+    font-weight: 200;
+}
+
+header span {
+    color: #fff;
+    font-weight: 200;
+    font-size: 1.2em;
+}
+
+.error {
+    color: red;
+}
