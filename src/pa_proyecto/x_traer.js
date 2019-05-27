@@ -3,9 +3,7 @@ import axios from 'axios'
 export default (componente) => {
     axios
     .post(`${process.env.API_URL}dfs60000`,{
-        // frontUser: componente.$store.state.usuario,
-        // producto: componente.producto, // Encriptado
-        // box: componente.box
+        frontUser: componente.$store.state.usuario
     },{
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
@@ -17,13 +15,19 @@ export default (componente) => {
         componente.cargando = false
         if (!response.data) {
             componente.error = 'No hay retorno de login'
-        } else if (!response.data.error) {
+        } else if (!response.data.ErrorSDT) {
             componente.error = 'No hay retorno del error'
-        } else if (response.data.ErrorSDT.error === 0) {
+        } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
-           componente.proyectos = response.data.proyectos
+            componente.proyectos = response.data.frontProyectos
+            if (!componente.$store.state.proyecto.idEnc && response.data.frontProyectos && response.data.frontProyectos[0]) {
+                componente.$store.commit('seleccionarProyecto',{
+                    idEnc: response.data.frontProyectos[0].proyectoEnc,
+                    nombre: response.data.frontProyectos[0].nombre
+                })
+            }
 
-        // } else if (response.data.ErrorSDT.error <= 4) {
+        // } else if (response.data.ErrorSDT.ErrorCode <= 4) {
         //     logout (componente)
         } else {
             componente.error = response.data.ErrorSDT.ErrorDescription

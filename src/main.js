@@ -30,9 +30,14 @@ new Vue({
     render: h => h(App),
     mounted () {
         // 👤 Usuario logueado
-        // if (localStorage.getItem('dfsUsr')) {
-        //     this.$store.commit('ingresar', JSON.parse(localStorage.getItem('dfsUsr')))
-        // }
+        if (localStorage.getItem('dfsUsr')) {
+            this.$store.commit('ingresar', JSON.parse(localStorage.getItem('dfsUsr')))
+        }
+
+        // Proyecto seleccionado
+        if (localStorage.getItem('dfsPrj')) {
+            this.$store.commit('seleccionarProyecto', JSON.parse(localStorage.getItem('dfsPrj')))
+        }
 
         // 📐 Redimención del sitio
 		window.addEventListener('resize', () => {

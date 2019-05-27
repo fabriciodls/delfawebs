@@ -15,6 +15,7 @@ export default {
         height: 6px;
         background-color: #fff;
         width: 100%;
+        margin: .5em 0;
     }
 
     .barra div {

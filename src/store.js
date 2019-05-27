@@ -12,7 +12,17 @@ export default new Vuex.Store({
         ancho: window.innerWidth,
         scrollY: window.scrollY,
         // ahora: null,
-        usuario: null,
+        usuario: {
+            ok: false,
+            nombre: null,
+            idEnc: null,
+            vsEnc: null,
+            key: null,
+        },
+        proyecto: {
+            idEnc: null,
+            nombre: null
+        }
     },
     
     mutations: {
@@ -24,8 +34,14 @@ export default new Vuex.Store({
             state.scrollY = window.scrollY
         },
 
-        login (state, usuario) {
+        ingresar (state, usuario) {
             state.usuario = usuario
+            localStorage.setItem('dfsUsr', JSON.stringify(usuario))
+        },
+
+        seleccionarProyecto (state, proyecto) {
+            state.proyecto = proyecto
+            localStorage.setItem('dfsPrj', JSON.stringify(proyecto))
         }
 
         // setearHora (state) {
