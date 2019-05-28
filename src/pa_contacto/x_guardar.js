@@ -1,9 +1,12 @@
 import axios from 'axios'
 
 export default (componente) => {
+    componente.cargando = true
     axios
-    .post(`${process.env.API_URL}dfs60000`,{
-        frontUser: componente.$store.state.usuario
+    .post(`${process.env.API_URL}dfs60011`,{
+        frontUser: componente.$store.state.usuario,
+        proyectoEnc: componente.$store.state.proyecto.idEnc,
+        campos: componente.campos
     },{
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
@@ -19,17 +22,11 @@ export default (componente) => {
             componente.error = 'No hay retorno del error'
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
-            componente.proyectos = response.data.frontProyectos
-            if (!componente.$store.state.proyecto.idEnc && response.data.frontProyectos && response.data.frontProyectos[0]) {
-                componente.$store.commit('seleccionarProyecto',{
-                    idEnc: response.data.frontProyectos[0].proyectoEnc,
-                    nombre: response.data.frontProyectos[0].nombre,
-                    logo: response.data.frontProyectos[0].imagen
-                })
+            componente.version = response.data.FrontDisForm.version
+            if (response.data.FrontDisForm && response.data.FrontDisForm.campos) {
+                componente.campos = response.data.FrontDisForm.campos
             }
-
-        // } else if (response.data.ErrorSDT.ErrorCode <= 4) {
-        //     logout (componente)
+            
         } else {
             componente.error = response.data.ErrorSDT.ErrorDescription
         }

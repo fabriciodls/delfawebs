@@ -16,12 +16,12 @@ export default new Vuex.Store({
             ok: false,
             nombre: null,
             idEnc: null,
-            vsEnc: null,
             key: null,
         },
         proyecto: {
             idEnc: null,
-            nombre: null
+            nombre: null,
+            logo: null,
         }
     },
     

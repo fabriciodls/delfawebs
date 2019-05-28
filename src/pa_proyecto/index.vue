@@ -50,7 +50,7 @@
 
                 <!-- Seleccionar -->
                 <button v-if="p.proyectoEnc !== paraEditar && borrando !== p.proyectoEnc" aria-label="Seleccionar el proyecto" 
-                @click="selecciona(p.proyectoEnc, p.nombre)">
+                @click="selecciona(p)">
                     <i aria-hidden="true" class="play_arrow"/>
                 </button>
             </li>
@@ -119,9 +119,11 @@ export default {
     },
 
     methods: {
-        selecciona (idEnc, nombre) {
+        selecciona (p) {
             this.$store.commit('seleccionarProyecto', {
-                idEnc, nombre
+                idEnc: p.proyectoEnc, 
+                nobre: p.nombre,
+                logo: p.imagen
             })
         },
 
@@ -160,7 +162,6 @@ export default {
 
 <style scoped>
     article {
-        align-self: center;
         width: 700px;
     }
 

@@ -2,6 +2,7 @@ main {
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
     min-height: 100hv;
 }
 
@@ -12,6 +13,22 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.logo {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: .5em;
+    background-color: #fff;
+    animation: pup .3s ease;
+}
+
+@keyframes pup {
+    from {
+        opacity: 0;
+        transform: scale(.5,.5);
+    }
 }
 
 h1 {
@@ -30,6 +47,7 @@ header span {
 
 nav {
     display: flex;
+    height: 100%;
     margin: 0 auto 0 0;
 }
 
@@ -184,6 +202,9 @@ article {
     padding: 2em;
     box-shadow: 0 0 .5em 0 #33333355;
     border-radius: .5em;
+    max-width: calc(100vw - 1em);
+    min-height: 60vh;
+    min-width: 700px;
 }
 
 hr {
@@ -220,6 +241,7 @@ hr {
     border: none;
     background-color: transparent;
     margin: 0 0 0 auto;
+    padding: .5em 0;
 }
 
 .agregar span {
@@ -229,7 +251,7 @@ hr {
 }
 
 .agregar i {
-    padding: .5em;
+    padding: .4em;
     border-radius: 50%;
     background-color: var(--secundary-color);
 }
@@ -252,12 +274,20 @@ h2 {
     color: #333;
 }
 
+hr {
+    width: 100%;
+    border: none;
+    background-color: #eee;
+    height: 2px;
+}
+
 footer {
     margin: auto 0 0 0;
     padding: 1em;
     display: flex;
     justify-content: center;
     border-top: 1px solid #ddd;
+    width: 100%;
 }
 
 footer * {
