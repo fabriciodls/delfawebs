@@ -5,17 +5,17 @@
 /*
     🔨 Desarrollo
 */
-process.env.apiUrl = 'http://100.26.85.207:8880/delfawebsJavaEnvironment/rest/'
-process.env.routerMode = true
-const publicPath = '/'
+// process.env.apiUrl = 'http://100.26.85.207:8880/delfawebsJavaEnvironment/rest/'
+// process.env.routerMode = true
+// const publicPath = '/'
 
 /*
     🥕 Backend
 */
-// process.env.apiUrl = '../rest/'
-// process.env.routerMode = true
-// const publicPath = '../static/front/'
-// process.env.backend = true
+process.env.apiUrl = '../rest/'
+process.env.routerMode = true
+const publicPath = '../static/dfs/'
+process.env.backend = true
 
 
 /*
