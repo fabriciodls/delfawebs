@@ -17,10 +17,11 @@
         </header>
 
         <!-- Cuerpo del sistema -->
-        <login v-if="!usuario"/>
-        <sin-proyecto v-else-if="(!proyecto || !proyecto.idEnc) && route !== '/'"/>
-        <router-view v-else/>
+        <login v-if="!usuario" class="contenido"/>
+        <sin-proyecto v-else-if="(!proyecto || !proyecto.idEnc) && route !== '/'" class="contenido"/>
+        <router-view class="contenido" v-else/>
 
+        <!-- Pié de página -->
         <footer v-if="cargado">
             <a href="http://delfasoft.com" target="_blank" rel="noopener noreferrer" draggable="false">
                 delfasoft © 2019 versión {{version}}

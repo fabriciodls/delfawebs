@@ -12,7 +12,7 @@ export default (componente) => {
         withCredentials: true
     })
     .then(response => {
-        componente.cargando = false
+        componente.cargandoFormulario = false
         if (!response.data) {
             componente.error = 'No hay retorno de login'
         } else if (!response.data.ErrorSDT) {
@@ -30,7 +30,7 @@ export default (componente) => {
 
     })
     .catch(error => {
-        componente.cargando = false
+        componente.cargandoFormulario = false
         componente.error = error
     })
 }

@@ -1,12 +1,11 @@
 <template>
     <article>
         <h2>Formulario de contacto</h2>
-        <span v-if="error" class="error">{{error}}</span>
         <span>Versión {{version}}</span>
         <hr>
         <div v-for="(c, index) in campos" :key="index" class="campo">
-            <input type="text" v-model="c.titulo" :disabled="editando && !cargando ? null: 'disabled'" placeholder="Título" aria-label="Título del campo">
-            <select v-model="c.tipo" :disabled="editando && !cargando ? null: 'disabled'" title="Tipo" aria-label="Tipo de campo">
+            <input type="text" v-model="c.titulo" :disabled="editando && !cargandoFormulario ? null: 'disabled'" placeholder="Título" aria-label="Título del campo">
+            <select v-model="c.tipo" :disabled="editando && !cargandoFormulario ? null: 'disabled'" title="Tipo" aria-label="Tipo de campo">
                 <option value="t">Texto</option>
                 <option value="e">Email</option>
                 <option value="p">Teléfono</option>
@@ -14,11 +13,12 @@
                 <option value="f">Fecha</option>
                 <option value="h">Hora</option>
             </select>
-            <button v-if="editando && !cargando" class="borrar" @click="borrar(index)" title="Borrar" aria-label="Borrar">
+            <button v-if="editando && !cargandoFormulario" class="borrar" @click="borrar(index)" title="Borrar" aria-label="Borrar">
                 <i aria-hidden="true" class="delete"/>
             </button>
         </div>
-        <barra v-if="cargando"/>
+        <barra v-if="cargandoFormulario"/>
+        <span v-else-if="error" class="error">{{error}}</span>
         <div v-else class="botonera">
             <button v-if="editando" class="agregar" @click="agregar()" aria-label="Agregar">
                 <i aria-hidden="true" class="add"/>
@@ -37,31 +37,33 @@
                 <i aria-hidden="true" class="close"/>
             </button>
         </div>
-        <hr v-if="!cargando">
-        <h2 v-if="!cargando">Registro</h2>
-        <table>
+        <hr v-if="!cargandoFormulario">
+        <h2 v-if="!cargandoFormulario">Registro</h2>
+        <table v-for="v in versiones" :key="v.idEnc">
             <tr>
-                <th :colspan="2 + campos.length">
-                    <span>versión 1</span>
+                <th :colspan="2 + v.columnas.length">
+                    <span>versión {{v.version}}</span>
                 </th>
             </tr>
             <tr>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th v-for="campo in campos" :key="campo.idEnc">{{campo.titulo}}</th>
+                <th>Fecha</th> <th>Hora</th>
+                <th v-for="(c, ic) in v.columnas" :key="`${v.idEnc}c${ic}`">{{c}}</th>
             </tr>
-            <tr>
-                <td>11/5/2018</td>
-                <td>10:00</td>
-                <td v-for="celda in campos" :key="`t${celda.idEnc}`">10:00</td>
+            <tr v-for="(r, ir) in v.registros" :key="`${v.idEnc}r${ir}`">
+                <td>{{r.fecha}}</td> <td>{{r.hora}}</td>
+                <td v-for="(d, id) in r.datos" :key="`${v.idEnc}r${ir}cd${id}`">{{d}}</td>
             </tr>
         </table>
+        <barra v-if="cargandoRegistros"/>
+        <span v-else-if="errorRegistros" class="error">{{errorRegistros}}</span>
+        <button v-if="verMas" class="accion">Ver más</button>
     </article>
 </template>
 
 <script>
 import x_traer from './x_traer'
 import x_guardar from './x_guardar'
+import x_registros from './x_registros'
 
 export default {
     name: 'contacto',
@@ -71,16 +73,22 @@ export default {
     },
 
     data: () => ({
-        cargando: true,
+        cargandoFormulario: true,
         campos: [],
         version: 0,
         error: null,
         editando: false,
-        versiones: []
+        cargandoRegistros: true,
+        versiones: [],
+        hayMas: false,
+        ultimaVersionEnc: null,
+        ultimoRegistroEnc: null,
+        errorRegistros: null
     }),
 
     created () {
         x_traer (this)
+        x_registros (this)
     },
 
     methods: {
@@ -103,9 +111,13 @@ export default {
         },
 
         cancelar () {
-            this.cargando = true
+            this.cargandoFormulario = true
             this.editando = false
             x_traer (this)
+        },
+
+        traerRegistros () {
+            x_registros (this)
         }
     }
 }

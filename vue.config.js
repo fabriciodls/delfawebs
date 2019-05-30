@@ -12,10 +12,9 @@
 /*
     🥕 Backend
 */
-process.env.apiUrl = '../rest/'
-process.env.routerMode = true
-const publicPath = '../static/dfs/'
-process.env.backend = true
+process.env.apiUrl = '../../rest/'
+process.env.routerMode = false
+const publicPath = './'
 
 
 /*
@@ -47,8 +46,7 @@ module.exports = {
             new webpack.DefinePlugin({
                 'process.env': {
                     'API_URL': JSON.stringify(process.env.apiUrl),
-                    'ROUTER_MODE': process.env.routerMode,
-                    'BACKEND': process.env.backend
+                    'ROUTER_MODE': process.env.routerMode
                 }
             })
         ]

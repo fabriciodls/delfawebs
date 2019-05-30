@@ -16,7 +16,7 @@ export default [
     },
     {
         path: '/parametros',
-        name: 'Parametros',
+        name: 'Parámetros',
         component: () => import('@/pa_parametros')
     }
 ]
