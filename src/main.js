@@ -11,7 +11,7 @@ import '@/app/style.css'
 // Router, Vuex, PWA
 import router from './router'
 import store from './store'
-import './sw'
+// import './sw'
 
 // 👆 Touch
 // import VueTouch from 'vue-touch'
@@ -77,19 +77,19 @@ new Vue({
         // })
 
         // 📱 PWA
-        window.addEventListener('beforeinstallprompt', e => {
-            e.userChoice.then(choiceResult => {
+        // window.addEventListener('beforeinstallprompt', e => {
+        //     e.userChoice.then(choiceResult => {
 
-                console.log(`resultado de usuario ${choiceResult.outcome}`);
+        //         console.log(`resultado de usuario ${choiceResult.outcome}`);
 
-                if(choiceResult.outcome === 'dismissed') {
-                    console.log('El usuario canceló la instalación de la pantalla de inicio')
-                }
-                else {
-                    console.log('Usuario agregó a la pantalla de inicio')
-                }
-            })
-        })
+        //         if(choiceResult.outcome === 'dismissed') {
+        //             console.log('El usuario canceló la instalación de la pantalla de inicio')
+        //         }
+        //         else {
+        //             console.log('Usuario agregó a la pantalla de inicio')
+        //         }
+        //     })
+        // })
 
         // // 📱🍎 Detects if device is on iOS
         // const isIos = () => {
