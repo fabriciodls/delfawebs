@@ -215,6 +215,8 @@
 
                 https://delfasoft.com,
                 https://www.delfasoft.com,
+                https://apps.delfasoft.com,
+                https://www.apps.delfasoft.com,
                 https://tempus.delfasoft.com
             </param-value>
         </init-param>

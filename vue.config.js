@@ -5,16 +5,16 @@
 /*
     🔨 Desarrollo
 */
-// const apiUrl = 'http://100.26.85.207:8880/delfawebsJavaEnvironment/rest/'
-// const routerMode = true
-// const publicPath = '/'
+const apiUrl = 'http://100.26.85.207:8880/delfawebsJavaEnvironment/rest/'
+const routerMode = true
+const publicPath = '/'
 
 /*
     🥕 Backend
 */
-const apiUrl = '../../rest/'
-const routerMode = false
-const publicPath = './'
+// const apiUrl = '../../rest/'
+// const routerMode = false
+// const publicPath = './'
 
 
 /*
