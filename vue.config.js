@@ -29,7 +29,7 @@ const webpack = require('webpack')
 const amb = require('./package.json').env === 'des' ? des: back
 
 module.exports = {
-    publicPath,
+    publicPath: amb.publicPath,
     productionSourceMap: false,
     // pwa: {
     //     name: 'vicofrascolla',
@@ -50,8 +50,8 @@ module.exports = {
         plugins: [
             new webpack.DefinePlugin({
                 'process.env': {
-                    'API_URL': JSON.stringify(apiUrl),
-                    'ROUTER_MODE': routerMode
+                    'API_URL': JSON.stringify(amb.apiUrl),
+                    'ROUTER_MODE': amb.routerMode
                 }
             })
         ]

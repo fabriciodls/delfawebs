@@ -56,7 +56,7 @@
         </table>
         <barra v-if="cargandoRegistros"/>
         <span v-else-if="errorRegistros" class="error">{{errorRegistros}}</span>
-        <button v-if="verMas" class="accion">Ver más</button>
+        <button v-if="hayMas" class="accion">Ver más</button>
     </article>
 </template>
 

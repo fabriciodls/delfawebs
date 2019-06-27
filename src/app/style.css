@@ -211,7 +211,7 @@ article {
     border-radius: .5em;
     max-width: calc(100vw - 1em);
     min-height: 60vh;
-    min-width: 700px;
+    width: 700px;
 }
 
 hr {
