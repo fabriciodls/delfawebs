@@ -5,23 +5,28 @@
 /*
     🔨 Desarrollo
 */
-const apiUrl = 'http://100.26.85.207:8880/delfawebsJavaEnvironment/rest/'
-const routerMode = true
-const publicPath = '/'
+const des = {
+    apiUrl: 'http://3.93.229.145:8880/delfawebsJavaEnvironment/rest/',
+    routerMode: true,
+    publicPath: '/',
+}
+
 
 /*
     🥕 Backend
 */
-// const apiUrl = '../../rest/'
-// const routerMode = false
-// const publicPath = './'
-
+const back = {
+    apiUrl: '../../rest/',
+    routerMode: false,
+    publicPath: './',
+}
 
 /*
     Versión
 */
 process.env.VUE_APP_VERSION = require('./package.json').version
 const webpack = require('webpack')
+const amb = require('./package.json').env === 'des' ? des: back
 
 module.exports = {
     publicPath,
