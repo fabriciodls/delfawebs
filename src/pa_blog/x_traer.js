@@ -29,35 +29,12 @@ export default (componente) => {
             }
             componente.hayMas = response.data.hayMas
             componente.ultimo = response.data.ultimoEnc
+            componente.error = null
 
-        /**
-         * borrar
-         */
-        componente.articulos.push({
-            idEnc: '1',
-            activo: true,
-            pagina: '/',
-            titulo: 'Análisis test 23',
-            inicio: '26/8/92 12:00',
-            fin: '5/5/30 12:00',
-            imagen: {
-                activo: false,
-                url: null
-            },
-            video: {
-                activo: false,
-                url: null,
-                poster: 'https://pbs.twimg.com/media/D510Oj4WkAASIGE.jpg',
-                tipo: 'video/mp4'
-            },
-            boton: {
-                activo: false,
-                texto: 'Ver Más',
-                tipo: 1,
-                accion: '/'
-            },
-            parrafos: []
-        }) /***/
+            componente.articulos.forEach(ar => {
+                ar.inicio = ar.inicio.split('T')[0].split('-').reverse().join('/')
+                ar.fin = ar.fin.split('T')[0].split('-').reverse().join('/')
+            })
             
         } else {
             componente.error = response.data.ErrorSDT.ErrorDescription

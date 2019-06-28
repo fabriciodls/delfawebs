@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export default (componente) => {
-    componente.agregando = true
+    componente.cargando = true
+    componente.paraAgregar = false
 
     if (componente.articulo.imagen.url && componente.articulo.imagen.url.includes('http')) {
         componente.articulo.imagen.activo = true
@@ -21,12 +22,16 @@ export default (componente) => {
         componente.articulo.boton.activo = false
     }
 
-    if (componente.articulo.parrafoPervio) {
+    if (componente.parrafoPrevio) {
         componente.articulo.parrafos.push({
             idEnc: 'ultimo',
-            texto: componente.articulo.parrafoPervio
+            texto: componente.parrafoPrevio
         })
     }
+
+    // Compatibilidad de formatos fecha hora
+    componente.articulo.inicio = `${componente.articulo.inicio}T00:00:00`
+    componente.articulo.fin = `${componente.articulo.fin}T00:00:00`
 
     axios
     .post(`${process.env.API_URL}dfs60021`,{
@@ -41,7 +46,6 @@ export default (componente) => {
         withCredentials: true
     })
     .then(response => {
-        componente.agregando = false
         if (!response.data) {
             componente.error = 'No hay retorno de login'
         } else if (!response.data.ErrorSDT) {
@@ -49,9 +53,33 @@ export default (componente) => {
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
             componente.error = null
-            componente.version = response.data.FrontDisForm.version
-            componente.cargando = true
-            componente.recargar
+            componente.articulo = {
+                idEnc: null,
+                activo: true,
+                pagina: '/',
+                titulo: '',
+                inicio: componente.ahora,
+                fin: '2030-01-01',
+                imagen: {
+                    activo: false,
+                    url: null
+                },
+                video: {
+                    activo: false,
+                    url: null,
+                    poster: null,
+                    tipo: 'video/mp4'
+                },
+                boton: {
+                    activo: false,
+                    texto: null,
+                    tipo: 1,
+                    accion: null
+                },
+                parrafos: []
+            }
+            componente.parrafoPrevio = null
+            componente.recargar()
             
         } else {
             componente.error = response.data.ErrorSDT.ErrorDescription
@@ -59,7 +87,7 @@ export default (componente) => {
 
     })
     .catch(error => {
-        componente.agregando = false
+        componente.cargando = false
         componente.error = error
     })
 }

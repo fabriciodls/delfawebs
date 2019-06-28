@@ -1,40 +1,27 @@
 <template>
     <article>
-        <h3>Escriba aquí los artículos</h3>
-        <ul>
-            <li v-if="(!articulos || articulos.length === 0) && !cargando">
-                <span class="nohay">(No hay articulos)</span>
-            </li>
-            <li v-for="a in articulos" :key="a.idEnc">
-                <i :class="a.activo ? 'done': 'close'" aria-hidden="true"/>
-                
-                <span>{{a.titulo}}</span>
-                <div class="dividido">
-                    <span title="desde">{{a.inicio}}</span>
-                    <hr>
-                    <span title="hasta">{{a.fin}}</span>
-                </div>
-                <img v-if="a.imagen.url" :src="a.imagen.url" :alt="`imagen en ${a.titulo}`" title="Imagen">
-                <div v-else class="vacio" title="Imagen"></div>
-                <img v-if="a.video.poster" :src="a.video.poster" :alt="`video en ${a.titulo}`" title="Video">
-                <div v-else class="vacio" title="Video"></div>
-                <div class="dividido">
-                    <span>{{ a.boton.tipo === 1 ? 'link interno'
-                            :a.boton.tipo === 2 ? 'link externo'
-                            : 'Sin botón'}}</span>
-                    <hr>
-                    <span>{{a.boton.texto}}</span>
-                </div>
-                <button aria-label="Editar" @click="paraEditar = a.idEnc">
-                    <i class="edit" aria-hidden="true"/>
-                </button>
-            </li>
-            <barra v-if="agregando"/>
+        <h2>Escriba aquí los artículos</h2>
 
+                <!-- Dinámica de la carga -->
+        <barra v-if="cargando" />
+        <span v-else-if="error" class="error">{{error}}</span>
+
+        <button v-if="!paraAgregar && !paraEditar && !cargando" class="agregar" @click="paraAgregar = true">
+            <span>Agregar</span>
+            <i aria-hidden="true" class="add"/>
+        </button>
+
+        <ul>
             <!-- Agregar -->
             <li v-if="paraAgregar" class="editando">
                 <div>
                     <input v-model="articulo.titulo" type="text" aria-label="Titulo del artículo" title="Titulo del artículo" placeholder="Titulo del artículo">
+                    <select v-model="articulo.pagina">
+                        <option value="/">Home</option>
+                        <option value="/blog">Blog</option>
+                    </select>
+                </div>
+                <div>
                     <input v-model="articulo.inicio" type="date" :min="ahora" :max="articulo.fin || '2030-01-01'" aria-label="inicio" title="inicio" placeholder="inicio">
                     <input v-model="articulo.fin" type="date" :min="articulo.inicio || ahora" max="2030-01-01" aria-label="Fin" title="Fin" placeholder="Fin">
                 </div>
@@ -59,29 +46,50 @@
                     <textarea v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" rows="5" @keyup="borrarParrafo()"></textarea>
                     <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea>
                 </div>
+                <div class="botonera">
+                    <button v-if="paraAgregar || paraEditar" class="editar" @click="guardar()" aria-label="Guardar">
+                        <span>Guardar</span>
+                        <i aria-hidden="true" class="done"/>
+                    </button>
+                    <button v-if="paraAgregar || paraEditar" class="editar" @click="cancelar()" aria-label="Cancelar">
+                        <span>Cancelar</span>
+                        <i aria-hidden="true" class="close"/>
+                    </button>
+                </div>
             </li>
-        </ul>
 
-        <!-- Dinámica de la carga -->
-        <barra v-if="cargando" />
-        <span v-else-if="error" class="error">{{error}}</span>
+            <li v-if="(!articulos || articulos.length === 0) && !cargando">
+                <span class="nohay">(No hay articulos)</span>
+            </li>
 
-        <button v-if="!paraAgregar && !paraEditar && !cargando" class="agregar" @click="paraAgregar = true">
-            <span>Agregar</span>
-            <i aria-hidden="true" class="add"/>
-        </button>
-
-        <div class="botonera">
-            <button v-if="paraAgregar || paraEditar" class="editar" @click="guardar()" aria-label="Guardar">
-                <span>Guardar</span>
-                <i aria-hidden="true" class="done"/>
-            </button>
-            <button v-if="paraAgregar || paraEditar" class="editar" @click="cancelar()" aria-label="Cancelar">
-                <span>Cancelar</span>
-                <i aria-hidden="true" class="close"/>
-            </button>
-        </div>
-        
+            <li v-for="a in articulos" :key="a.idEnc">
+                <i :class="a.activo ? 'done': 'close'" aria-hidden="true"/>
+                
+                <span>{{a.titulo}}</span>
+                <div class="dividido">
+                    <span title="desde">{{a.inicio}}</span>
+                    <hr>
+                    <span title="hasta">{{a.fin}}</span>
+                </div>
+                <img v-if="a.imagen.url" :src="a.imagen.url" :alt="`imagen en ${a.titulo}`" title="Imagen">
+                <div v-else class="vacio" title="Imagen"></div>
+                <img v-if="a.video.poster" :src="a.video.poster" :alt="`video en ${a.titulo}`" title="Video">
+                <div v-else class="vacio" title="Video"></div>
+                <div class="dividido">
+                    <span>{{ a.boton.tipo === 1 ? 'link interno'
+                            :a.boton.tipo === 2 ? 'link externo'
+                            : 'Sin botón'}}</span>
+                    <hr>
+                    <span>{{a.boton.texto}}</span>
+                </div>
+                <button style="margin-left:auto;" aria-label="Editar" @click="paraEditar = a.idEnc">
+                    <i class="edit" aria-hidden="true"/>
+                </button>
+                <button aria-label="Borrar" @click="paraEditar = a.idEnc">
+                    <i class="delete" aria-hidden="true"/>
+                </button>
+            </li>
+        </ul>        
     </article>
 </template>
 
@@ -103,7 +111,6 @@ export default {
         hayMas: false,
         ultimo: '',
         paraAgregar: false,
-        agregando: false,
         paraEditar: null,
         editando: false,
         ahora: null,
@@ -139,8 +146,8 @@ export default {
         x_traer (this)
         const ahora = new Date()
         this.ahora = `${ahora.getFullYear()}-${
-            ahora.getMonth() >= 10 ? '': '0'
-        }${ahora.getMonth()}-${
+            ahora.getMonth() >= 9 ? '': '0'
+        }${ahora.getMonth() + 1}-${
             ahora.getDate() >= 10 ? '': '0'
         }${ahora.getDate()}`
         this.articulo.inicio = this.ahora
@@ -329,9 +336,14 @@ export default {
     }
 
     .botonera {
+        width: 100%;
         display: flex;
         justify-content: flex-end;
         align-items: flex-end;
+    }
+
+    .botonera * {
+        width: auto;
     }
 
     .editar {
