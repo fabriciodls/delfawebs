@@ -124,10 +124,6 @@ export default {
 </script>
 
 <style scoped>
-    article {
-        width: 700px;
-    }
-
     div {
         display: flex;
         flex-wrap: wrap;
