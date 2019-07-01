@@ -272,6 +272,18 @@ hr {
     color: #fff;
 }
 
+.agregar:disabled {
+    cursor: default;
+}
+
+.agregar:disabled span {
+    color: #aaa;
+}
+
+.agregar:disabled i {
+    background-color: #aaa;
+}
+
 .nohay {
     color: #888;
 }

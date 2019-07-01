@@ -2,11 +2,12 @@
     <article>
         <h2>Escriba aquí los artículos</h2>
 
-                <!-- Dinámica de la carga -->
+        <!-- Dinámica de la carga -->
         <barra v-if="cargando" />
         <span v-else-if="error" class="error">{{error}}</span>
 
-        <button v-if="!paraAgregar && !paraEditar && !cargando" class="agregar" @click="paraAgregar = true">
+        <!-- Botón de agregar -->
+        <button v-if="!paraAgregar && !cargando" class="agregar" @click="paraAgregar = true" :disabled="paraEditar ? 'disabled': null">
             <span>Agregar</span>
             <i aria-hidden="true" class="add"/>
         </button>
@@ -58,34 +59,89 @@
                 </div>
             </li>
 
+            <!-- Sin Artículos -->
             <li v-if="(!articulos || articulos.length === 0) && !cargando">
                 <span class="nohay">(No hay articulos)</span>
             </li>
 
-            <li v-for="a in articulos" :key="a.idEnc">
-                <i :class="a.activo ? 'done': 'close'" aria-hidden="true"/>
+            <!-- Lista de artículos -->
+            <li v-for="a in articulos" :key="a.idEnc" :class="paraEditar === a.idEnc && !editando ? 'editando': null">
+                <i v-if="paraEditar !== a.idEnc || editando" :class="a.activo ? 'done': 'close'" aria-hidden="true"/>
                 
-                <span>{{a.titulo}}</span>
-                <div class="dividido">
-                    <span title="desde">{{a.inicio}}</span>
-                    <hr>
-                    <span title="hasta">{{a.fin}}</span>
+                <div v-if="paraEditar === a.idEnc && !editando">
+                    <input v-model="articulo.titulo" type="text" aria-label="Titulo del artículo" title="Titulo del artículo" placeholder="Titulo del artículo">
+                    <select v-model="articulo.pagina">
+                        <option value="/">Home</option>
+                        <option value="/blog">Blog</option>
+                    </select>
                 </div>
-                <img v-if="a.imagen.url" :src="a.imagen.url" :alt="`imagen en ${a.titulo}`" title="Imagen">
+                <span v-else class="titulo">{{a.titulo}}</span>
+                <span v-if="paraEditar !== a.idEnc || editando" class="pagina">{{a.pagina}}</span>
+
+                <div v-if="paraEditar === a.idEnc && !editando">
+                    <input v-model="articulo.inicio" type="date" :min="ahora" :max="articulo.fin || '2030-01-01'" aria-label="inicio" title="inicio" placeholder="inicio">
+                    <input v-model="articulo.fin" type="date" :min="articulo.inicio || ahora" max="2030-01-01" aria-label="Fin" title="Fin" placeholder="Fin">
+                </div>
+                <div v-else class="dividido">
+                    <span title="Desde">{{a.inicio}}</span>
+                    <hr>
+                    <span title="Hasta">{{a.fin}}</span>
+                </div>
+
+                <div v-if="paraEditar === a.idEnc && !editando">
+                    <img v-if="articulo.imagen.url" :src="articulo.imagen.url" alt="Imágen para el nuevo artículo">
+                    <div v-else class="vacio" title="Imagen"></div>
+                    <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
+                </div>
+                <img v-else-if="a.imagen.url" :src="a.imagen.url" :alt="`imagen en ${a.titulo}`" title="Imagen">
                 <div v-else class="vacio" title="Imagen"></div>
-                <img v-if="a.video.poster" :src="a.video.poster" :alt="`video en ${a.titulo}`" title="Video">
+
+                <div v-if="paraEditar === a.idEnc && !editando">
+                    <img v-if="articulo.video.poster" :src="articulo.video.poster" alt="Video para el nuevo Artículo">
+                    <div v-else class="vacio" title="Imagen"></div>
+                    <input v-model="articulo.video.url" type="url" aria-label="Url del video" title="Url del video" placeholder="url del video">
+                    <input v-model="articulo.video.poster" type="url" aria-label="Url del poster del video" title="Url del poster del video" placeholder="url del poster">
+                </div>
+                <img v-else-if="a.video.poster" :src="a.video.poster" :alt="`video en ${a.titulo}`" title="Video">
                 <div v-else class="vacio" title="Video"></div>
-                <div class="dividido">
+
+                <div v-if="paraEditar === a.idEnc && !editando">
+                    <input v-model="articulo.boton.texto" type="text" aria-label="Texto del botón" title="Texto del botón" placeholder="Texto del botón">
+                    <select v-model.number="articulo.boton.tipo" aria-lavel="Tipo de acción" title="Tipo de acción">
+                        <option :value="1">Link interno</option>
+                        <option :value="2">Link externo</option>
+                    </select>
+                    <input v-model="articulo.boton.accion" type="text" aria-label="Link del botón" title="Link del botón" placeholder="Link del botón">
+                    <textarea v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" rows="5" @keyup="borrarParrafo()"></textarea>
+                    <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea>
+                </div>
+                <div v-else class="dividido">
                     <span>{{ a.boton.tipo === 1 ? 'link interno'
                             :a.boton.tipo === 2 ? 'link externo'
                             : 'Sin botón'}}</span>
                     <hr>
                     <span>{{a.boton.texto}}</span>
                 </div>
-                <button style="margin-left:auto;" aria-label="Editar" @click="paraEditar = a.idEnc">
+
+                <barra v-if="borrando === a.idEnc || editando === a.idEnc" style="width: 80px;"/>
+
+                <!-- Confirmando Edición -->
+                <div v-if="paraEditar === a.idEnc && !editando" class="botonera">
+                    <button class="editar" @click="editar ()" aria-label="Guardar">
+                        <span>Guardar</span>
+                        <i aria-hidden="true" class="done"/>
+                    </button>
+                    <button class="editar" @click="cancelar()" aria-label="Cancelar">
+                        <span>Cancelar</span>
+                        <i aria-hidden="true" class="close"/>
+                    </button>
+                </div>
+                <button v-else-if="!editando && !borrando" style="margin-left:auto;" aria-label="Editar" 
+                    @click="prepararEditar(a)" :disabled="paraAgregar || paraEditar ? 'disabled': null">
                     <i class="edit" aria-hidden="true"/>
                 </button>
-                <button aria-label="Borrar" @click="paraEditar = a.idEnc">
+                <button v-if="!editando && !borrando && paraEditar !== a.idEnc" aria-label="Borrar" 
+                    @click="borrar(a.idEnc, a.titulo)" :disabled="paraAgregar || paraEditar ? 'disabled': null">
                     <i class="delete" aria-hidden="true"/>
                 </button>
             </li>
@@ -96,6 +152,8 @@
 <script>
 import x_traer from './x_traer'
 import x_guardar from './x_guardar'
+import x_editar from './x_editar'
+import x_borrar from './x_borrar'
 
 export default {
     name: 'blog',
@@ -113,6 +171,7 @@ export default {
         paraAgregar: false,
         paraEditar: null,
         editando: false,
+        borrando: null,
         ahora: null,
         articulo: {
             idEnc: null,
@@ -208,9 +267,35 @@ export default {
             x_guardar (this)
         },
 
-        recargar () {
-            x_traer (this)
-        }
+        prepararEditar (a) {
+            this.paraEditar = a.idEnc
+            this.articulo = {
+                idEnc: a.idEnc,
+                activo: a.activo,
+                pagina: a.pagina,
+                titulo: a.titulo,
+                inicio: a.inicio.split('/').reverse().join('-'),
+                fin: a.fin.split('/').reverse().join('-'),
+                imagen: a.imagen,
+                video: a.video,
+                boton: a.boton,
+                parrafos: a.parrafos
+            }
+        },
+
+        editar () {
+            x_editar (this)
+        },
+
+        borrar (idEnc, nombre) {
+            this.borrando = idEnc
+            let confirmado = confirm(`¿Desea borrar ${nombre}?`)
+            if (confirmado) {
+                x_borrar (this, nombre)
+            } else {
+                this.borrando = null
+            }
+        },
     }
 }
 </script>
@@ -261,10 +346,17 @@ export default {
         color: green;
     }
 
-    li span {
+    .titulo {
         display: block;
         width: 150px;
         max-width: 150px;
+        overflow-x: hidden;
+    }
+
+    .pagina {
+        display: block;
+        width: 55px;
+        max-width: 55px;
         overflow-x: hidden;
     }
 
@@ -292,6 +384,7 @@ export default {
     .dividido span {
         text-align: center;
         max-width: 120px;
+        width: 120px;
     }
 
     hr {
@@ -310,6 +403,14 @@ export default {
 
     li button:hover i {
         color: var(--primary-color);
+    }
+
+    li button:disabled {
+        cursor: default;
+    }
+
+    li button:disabled i {
+        color: #aaa;
     }
 
     input,
@@ -364,5 +465,9 @@ export default {
     .editar:hover i,
     .editar:focus i {
         color: var(--primary-color);
+    }
+
+    .editar:disabled i {
+        color: #aaa;
     }
 </style>

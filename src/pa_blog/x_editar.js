@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 export default (componente) => {
-    componente.cargando = true
-    componente.paraAgregar = false
+    componente.editando = componente.paraEditar
 
     if (componente.articulo.imagen.url && componente.articulo.imagen.url.includes('http')) {
         componente.articulo.imagen.activo = true
@@ -34,9 +33,10 @@ export default (componente) => {
     componente.articulo.fin = `${componente.articulo.fin}T00:00:00`
 
     axios
-    .post(`${process.env.API_URL}dfs60021`,{
+    .post(`${process.env.API_URL}dfs60022`,{
         frontUser: componente.$store.state.usuario,
         proyectoEnc: componente.$store.state.proyecto.idEnc,
+        idEnc: componente.paraEditar,
         frontBlog: componente.articulo
     },{
         headers: {
@@ -46,7 +46,8 @@ export default (componente) => {
         withCredentials: true
     })
     .then(response => {
-        componente.cargando = false
+        componente.editando = false
+        componente.paraEditar = false
         if (!response.data) {
             componente.error = 'No hay retorno de login'
         } else if (!response.data.ErrorSDT) {
@@ -98,7 +99,8 @@ export default (componente) => {
 
     })
     .catch(error => {
-        componente.cargando = false
+        componente.editando = false
+        componente.paraEditar = false
         componente.error = error
     })
 }
