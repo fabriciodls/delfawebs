@@ -11,6 +11,14 @@ const des = {
     publicPath: '/',
 }
 
+/*
+    🔨 test
+*/
+const test = {
+    apiUrl: 'https://tempus.delfasoft.com/testdelfawebs/rest/',
+    routerMode: false,
+    publicPath: './',
+}
 
 /*
     🥕 Backend
@@ -26,7 +34,8 @@ const back = {
 */
 process.env.VUE_APP_VERSION = require('./package.json').version
 const webpack = require('webpack')
-const amb = require('./package.json').env === 'des' ? des: back
+const amb = require('./package.json').env === 'des' ? des
+          : require('./package.json').env === 'test' ? test: back
 
 module.exports = {
     publicPath: amb.publicPath,
