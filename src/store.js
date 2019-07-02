@@ -17,6 +17,7 @@ export default new Vuex.Store({
             nombre: null,
             idEnc: null,
             key: null,
+            admin: false
         },
         proyecto: {
             idEnc: null,

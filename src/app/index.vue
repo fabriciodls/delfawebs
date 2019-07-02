@@ -8,16 +8,16 @@
             <h1 v-show="ancho <= 900">{{titulo}}</h1>
             <div v-if="ancho > 900 || menu" class="cortina" @click="menu = false"></div>
             <nav v-if="ancho > 900 || menu">
-                <router-link v-for="r in routes" :key="r.path" :to="r.path" draggable="false">{{r.name}}</router-link>
+                <router-link v-for="r in routes" :key="r.path" v-show="!r.admin || usuario.admin" :to="r.path" draggable="false">{{r.name}}</router-link>
             </nav>
-            <button v-if="usuario" class="usuario">
+            <button v-if="usuario.nombre" class="usuario" @click="salir()">
                 <i aria-hidden="true" class="person"/>
-                {{usuario}} | salir
+                {{usuario.nombre}} | salir
             </button>
         </header>
 
         <!-- Cuerpo del sistema -->
-        <login v-if="!usuario" class="contenido"/>
+        <login v-if="!usuario.ok" class="contenido"/>
         <sin-proyecto v-else-if="(!proyecto || !proyecto.idEnc) && route !== '/'" class="contenido"/>
         <router-view class="contenido" v-else/>
 
@@ -67,7 +67,7 @@ export default {
         },
 
         usuario () {
-            return this.$store.state.usuario.nombre
+            return this.$store.state.usuario
         },
 
         proyecto () {
@@ -83,6 +83,23 @@ export default {
         setTimeout(() => {
             this.cargado = true
         }, 2000)
+    },
+
+    methods: {
+        salir () {
+            this.$store.commit('ingresar', {
+                ok: false,
+                nombre: null,
+                idEnc: null,
+                key: null,
+                admin: false
+            })
+            this.$store.commit('seleccionarProyecto', {
+                idEnc: null, 
+                nobre: null,
+                logo: null
+            })
+        }
     }
 }
 </script>

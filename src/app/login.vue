@@ -35,6 +35,7 @@ export default {
         visible: false,
         email: null,
         pass: null,
+        cargando: false,
         error: null
     }),
 
