@@ -89,8 +89,13 @@
                 </div>
 
                 <div v-if="paraEditar === a.idEnc && !editando">
-                    <img v-if="articulo.imagen.url" :src="articulo.imagen.url" alt="Imágen para el nuevo artículo">
-                    <div v-else class="vacio" title="Imagen"></div>
+                    <spinner-circular v-if="subiendoImg"/>
+                    <input v-else type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+                        @change="cargarImagen" :style="{
+                        backgroundImage: articulo.imagen.url
+                            ? `url(${articulo.imagen.url})` 
+                            : null
+                    }"/>
                     <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
                 </div>
                 <img v-else-if="a.imagen.url" :src="a.imagen.url" :alt="`imagen en ${a.titulo}`" title="Imagen">
@@ -151,6 +156,7 @@
 
 <script>
 import x_traer from './x_traer'
+import x_subir from './x_subir'
 import x_guardar from './x_guardar'
 import x_editar from './x_editar'
 import x_borrar from './x_borrar'
@@ -159,7 +165,8 @@ export default {
     name: 'blog',
 
     components: {
-        barra: () => import('@/assets/barra')
+        barra: () => import('@/assets/barra'),
+        spinnerCircular: () => import('@/assets/spinnerCircular')
     },
 
     data: () => ({
@@ -168,6 +175,17 @@ export default {
         articulos: [],
         hayMas: false,
         ultimo: '',
+
+        // para subir imagen
+        imagen: {
+            archivo: null,
+            ext: '',
+            nombre: '',
+            orientacion: 0
+        },
+        subiendoImg: false,
+
+        // Para editar o agregar
         paraAgregar: false,
         paraEditar: null,
         editando: false,
@@ -214,6 +232,22 @@ export default {
     },
 
     methods: {
+        cargarImagen (ev) {
+            const file = ev.target.files[0]
+            const reader = new FileReader()
+
+            reader.onloadend = () => {
+                this.imagen.archivo = reader.result
+                this.imagen.ext = file.name.split('.').reverse()[0]
+                this.imagen.nombre = file.name
+                x_subir (this)
+            }
+
+            if (file) {
+                reader.readAsDataURL(file)
+            }
+        },
+
         agregarParrafo (e) {
             e.preventDefault()
             const ahora = new Date()
@@ -235,6 +269,14 @@ export default {
         cancelar () {
             this.paraEditar = false
             this.paraAgregar = false
+
+            this.imagen = {
+                archivo: null,
+                ext: '',
+                nombre: '',
+                orientacion: 0
+            }
+
             this.articulo = {
                 idEnc: null,
                 activo: true,
@@ -372,6 +414,22 @@ export default {
         height: 60px;
         border-radius: .5em;
         background-color: #ccc;
+    }
+
+    input[type="file"] {
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        width: 60px;
+        height: 60px;
+        border-radius: .5em;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer;
+    }
+
+    input::-webkit-file-upload-button {
+        visibility: hidden;
     }
 
     .dividido {
