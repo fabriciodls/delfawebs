@@ -1,7 +1,7 @@
 {
 	"name": "delfawebs",
-	"version": "0.0.6",
-	"env": "des",
+	"version": "0.0.7",
+	"env": "test",
 	"private": true,
 	"scripts": {
 		"test": "vue-cli-service serve",
