@@ -6,7 +6,7 @@
     🔨 Desarrollo
 */
 const des = {
-    apiUrl: 'http://3.93.229.145:8880/delfawebsJavaEnvironment/rest/',
+    apiUrl: 'http://34.237.57.188:8880/delfawebstest/rest/',
     routerMode: true,
     publicPath: '/',
 }

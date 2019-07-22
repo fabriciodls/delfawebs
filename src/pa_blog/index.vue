@@ -26,9 +26,15 @@
                     <input v-model="articulo.inicio" type="date" :min="ahora" :max="articulo.fin || '2030-01-01'" aria-label="inicio" title="inicio" placeholder="inicio">
                     <input v-model="articulo.fin" type="date" :min="articulo.inicio || ahora" max="2030-01-01" aria-label="Fin" title="Fin" placeholder="Fin">
                 </div>
+
                 <div>
-                    <img v-if="articulo.imagen.url" :src="articulo.imagen.url" alt="Imágen para el nuevo artículo">
-                    <div v-else class="vacio" title="Imagen"></div>
+                    <spinner-circular v-if="subiendoImg"/>
+                    <input v-else type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+                        @change="cargarImagen" :style="{
+                        backgroundImage: articulo.imagen.url
+                            ? `url(${articulo.imagen.url})` 
+                            : null
+                    }"/>
                     <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
                 </div>
                 <div>
