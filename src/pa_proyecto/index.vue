@@ -115,7 +115,11 @@ export default {
     },
 
     created () {
-        x_traer (this)
+        if (this.$store.state.usuario.admin) {
+            x_traer (this)
+        } else {
+            this.$router.push('/blog')
+        }
     },
 
     methods: {

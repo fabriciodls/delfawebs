@@ -74,6 +74,7 @@ nav a:hover {
 
 .contenido {
     margin-top: 5em;
+    max-width: 80vw;
 }
 
 .error {
@@ -209,7 +210,6 @@ article {
     padding: 2em;
     box-shadow: 0 0 .5em 0 #33333355;
     border-radius: .5em;
-    max-width: calc(100vw - 1em);
     min-height: 60vh;
     width: 800px;
 }
@@ -349,6 +349,29 @@ footer * {
         top: 0;
         left: 0;
         background-color: #000000aa;
+    }
+}
+
+@media (max-width: 570px) {
+    header {
+        padding: 0 5px;
+    }
+
+    article {
+        margin: 0;
+        max-width: 100%;
+        box-shadow: none;
+    }
+
+    .contenido {
+        margin-top: 3em;
+        max-width: 100%;
+        padding: 5%;
+    }
+
+    .usuario,
+    .menu {
+        padding: .3em;
     }
 }
 

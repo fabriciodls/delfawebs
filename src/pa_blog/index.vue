@@ -349,9 +349,9 @@ export default {
 </script>
 
 <style scoped>
-    article {
+    /* article {
         max-width: 80vw;
-    }
+    } */
 
     ul {
         padding: 0;
