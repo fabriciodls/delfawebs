@@ -23,6 +23,15 @@ export default (componente) => {
             componente.errorRegistros = 'No hay retorno del error'
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
+            // Formateo fecha hora
+            response.data.frontRegistrosContacto.forEach(rg => {
+                rg.registros.forEach(ritem => {
+                    let fecha = ritem.fechaHora.split('T')[0].split('-').reverse().join('/')
+                    let hora = ritem.fechaHora.split('T')[1]
+                    ritem.fechaHora = `${fecha} ${hora}`
+                })
+            })
+
             // grabo las tablas correspondientes
             if (!componente.hayMas) {
                 componente.versiones = response.data.frontRegistrosContacto

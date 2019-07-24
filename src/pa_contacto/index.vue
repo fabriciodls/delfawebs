@@ -37,6 +37,8 @@
                 <i aria-hidden="true" class="close"/>
             </button>
         </div>
+
+        <!--  -->
         <hr v-if="!cargandoFormulario">
         <h2 v-if="!cargandoFormulario">Registro</h2>
         <table v-for="v in versiones" :key="v.idEnc">
@@ -46,11 +48,11 @@
                 </th>
             </tr>
             <tr>
-                <th>Fecha</th> <th>Hora</th>
+                <th>Fecha hora</th>
                 <th v-for="(c, ic) in v.columnas" :key="`${v.idEnc}c${ic}`">{{c}}</th>
             </tr>
             <tr v-for="(r, ir) in v.registros" :key="`${v.idEnc}r${ir}`">
-                <td>{{r.fecha}}</td> <td>{{r.hora}}</td>
+                <td>{{r.fechaHora}}</td>
                 <td v-for="(d, id) in r.datos" :key="`${v.idEnc}r${ir}cd${id}`">{{d}}</td>
             </tr>
         </table>
@@ -85,6 +87,12 @@ export default {
         ultimoRegistroEnc: null,
         errorRegistros: null
     }),
+
+    computed: {
+        ancho () {
+            return this.$store.state.ancho
+        }
+    },
 
     created () {
         x_traer (this)
@@ -124,7 +132,11 @@ export default {
 </script>
 
 <style scoped>
-    div {
+    article {
+        max-width: 90vw;
+    }
+
+    .campo {
         display: flex;
         flex-wrap: wrap;
         margin: .5em 0;
@@ -141,10 +153,11 @@ export default {
     input,
     select {
         padding: .5em;
-        width: 20em;
+        width: 100%;
         font-size: 1em;
         max-width: 50vw;
         transition: all .3s ease;
+        display: flex;
     }
 
     input {
@@ -273,5 +286,21 @@ export default {
 
     tr:nth-child(2n) {
         background-color: #f8f8f8;
+    }
+
+    @media (max-width: 1000px) {
+        table {
+            width: 100%;
+        }
+        
+        tr {
+            display: flex;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ccc;
+        }
+
+        tr:nth-child(2n) {
+            background-color: #eee;
+        }
     }
 </style>
