@@ -37,12 +37,12 @@ export default new Vuex.Store({
 
         ingresar (state, usuario) {
             state.usuario = usuario
-            localStorage.setItem('dfsUsr', JSON.stringify(usuario))
+            localStorage.setItem('wdfsUsr', JSON.stringify(usuario))
         },
 
         seleccionarProyecto (state, proyecto) {
             state.proyecto = proyecto
-            localStorage.setItem('dfsPrj', JSON.stringify(proyecto))
+            localStorage.setItem('wdfsPrj', JSON.stringify(proyecto))
         }
 
         // setearHora (state) {

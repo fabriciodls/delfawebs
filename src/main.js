@@ -30,12 +30,12 @@ new Vue({
     render: h => h(App),
     mounted () {
         // 👤 Usuario logueado
-        if (localStorage.getItem('dfsUsr')) {
+        if (localStorage.getItem('wdfsUsr')) {
             this.$store.commit('ingresar', JSON.parse(localStorage.getItem('dfsUsr')))
         }
 
         // Proyecto seleccionado
-        if (localStorage.getItem('dfsPrj')) {
+        if (localStorage.getItem('wdfsPrj')) {
             this.$store.commit('seleccionarProyecto', JSON.parse(localStorage.getItem('dfsPrj')))
         }
 
