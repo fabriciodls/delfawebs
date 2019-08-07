@@ -24,6 +24,7 @@ export default (componente) => {
                 componente.$store.commit('seleccionarProyecto',{
                     idEnc: response.data.frontProyectos[0].proyectoEnc,
                     nombre: response.data.frontProyectos[0].nombre,
+                    url: response.data.frontProyectos[0].url,
                     logo: response.data.frontProyectos[0].imagen
                 })
             }

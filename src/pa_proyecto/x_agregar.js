@@ -7,6 +7,7 @@ export default (componente) => {
     .post(`${process.env.API_URL}dfs60001`,{
         frontUser: componente.$store.state.usuario,
         nombre: componente.nombre,
+        url: componente.url,
         logo: componente.logo
     },{
         headers: {
@@ -26,6 +27,9 @@ export default (componente) => {
 
             componente.error = null
             componente.proyectos = response.data.frontProyectos
+            componente.nombre = null
+            componente.url = null
+            componente.logo = null
 
         // } else if (response.data.ErrorSDT.ErrorCode <= 4) {
             // logout (componente)

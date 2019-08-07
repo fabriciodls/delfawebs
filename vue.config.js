@@ -6,7 +6,7 @@
     🔨 Desarrollo
 */
 const des = {
-    apiUrl: 'http://34.237.57.188:8880/delfawebstest/rest/',
+    apiUrl: 'http://localhost:8080/delfawebstest/rest/',
     routerMode: true,
     publicPath: '/',
 }

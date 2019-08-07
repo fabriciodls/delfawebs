@@ -8,6 +8,7 @@ export default (componente) => {
         frontUser: componente.$store.state.usuario,
         idEnc: componente.editando,
         nombre: componente.nombre,
+        url: componente.url,
         logo: componente.logo
     },{
         headers: {
@@ -26,6 +27,9 @@ export default (componente) => {
 
             componente.error = null
             componente.proyectos = response.data.frontProyectos
+            componente.nombre = null
+            componente.url = null
+            componente.logo = null
 
         // } else if (response.data.ErrorSDT.ErrorCode <= 4) {
             // logout (componente)

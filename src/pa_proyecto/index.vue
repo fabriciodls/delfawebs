@@ -20,9 +20,14 @@
                 <img v-else :src="p.imagen" :alt="`Logo de ${p.nombre}`" draggable="false">
 
                 <!-- Nombre -->
-                <input v-if="p.proyectoEnc === paraEditar && editando !== p.proyectoEnc" type="text" 
-                    v-model="nombre" @keyup.enter="editar(p.proyectoEnc)">
-                <span v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc">{{p.nombre}}</span>
+                <div class="nombre">
+                    <input v-if="p.proyectoEnc === paraEditar && editando !== p.proyectoEnc" type="text" 
+                        v-model="nombre" @keyup.enter="editar(p.proyectoEnc)">
+                    <span v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc">{{p.nombre}}</span>
+                    <input v-if="p.proyectoEnc === paraEditar && editando !== p.proyectoEnc" type="text" 
+                        v-model="url" @keyup.enter="editar(p.proyectoEnc)">
+                    <span v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc">{{p.url}}</span>
+                </div>
 
                 <!-- Aceptar Edición -->
                 <button v-if="p.proyectoEnc === paraEditar  && editando !== p.proyectoEnc" aria-label="Aceptar cambios"
@@ -32,7 +37,7 @@
 
                 <!-- Editar -->
                 <button v-else-if="borrando !== p.proyectoEnc" aria-label="Editar"
-                    @click="paraEditar = p.proyectoEnc; nombre = p.nombre; logo = p.imagen">
+                    @click="paraEditar = p.proyectoEnc; nombre = p.nombre; url = p.url; logo = p.imagen">
                     <i aria-hidden="true" class="edit"/>
                 </button>
 
@@ -101,6 +106,7 @@ export default {
         editando: null,
         borrando: null,
         nombre: null,
+        url: null,
         logo: null
     }),
     
@@ -177,15 +183,22 @@ export default {
     li {
         display: flex;
         align-items: center;
-        padding: .5em 1em;
+        padding: 0 1em;
+        height: 5em;
         transition: all .3s ease;
     }
 
-    li span {
-        padding: 1em;
+    .nombre {
+        display: flex;
+        flex-direction: column;
         margin-right: auto;
+        padding: 0 1em;
+    }
+
+    li span {
+        padding: .5em;
         color: #333;
-        font-size: 1.2em;
+        font-size: 1em;
     }
 
     li input[type=text] {
