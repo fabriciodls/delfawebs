@@ -198,8 +198,26 @@
             <param-value>
                 http://localhost:8080,
                 http://localhost:8081,
-                http://100.26.85.207:8080,
-                http://10.0.100.123:8080,
+
+                http://delfasoft.desarrollodesoftwareamedida.com,
+                http://delfasport.desarrollodesoftwareamedida.com,
+                http://delfawebs.desarrollodesoftwareamedida.com,
+                http://instinto.desarrollodesoftwareamedida.com,
+                http://vicofrascolla.desarrollodesoftwareamedida.com,
+                http://unionatletica.desarrollodesoftwareamedida.com,
+                http://discere.desarrollodesoftwareamedida.com,
+                http://tuticket.desarrollodesoftwareamedida.com,
+                http://wodproseries.desarrollodesoftwareamedida.com,
+
+				https://delfasoft.desarrollodesoftwareamedida.com,
+                https://delfasport.desarrollodesoftwareamedida.com,
+                https://delfawebs.desarrollodesoftwareamedida.com,
+                https://instinto.desarrollodesoftwareamedida.com,
+                https://vicofrascolla.desarrollodesoftwareamedida.com,
+                https://unionatletica.desarrollodesoftwareamedida.com,
+                https://discere.desarrollodesoftwareamedida.com,
+                https://tuticket.desarrollodesoftwareamedida.com,
+                https://wodproseries.desarrollodesoftwareamedida.com,
 
                 https://vicofrascolla.com,
                 https://www.vicofrascolla.com,

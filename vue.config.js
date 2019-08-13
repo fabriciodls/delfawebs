@@ -15,7 +15,7 @@ const des = {
     🔨 test
 */
 const test = {
-    apiUrl: 'https://tempus.delfasoft.com/testdelfawebs/rest/',
+    apiUrl: 'https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/',
     routerMode: false,
     publicPath: './',
 }
