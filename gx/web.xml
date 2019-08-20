@@ -199,25 +199,15 @@
                 http://localhost:8080,
                 http://localhost:8081,
 
-                http://delfasoft.desarrollodesoftwareamedida.com,
-                http://delfasport.desarrollodesoftwareamedida.com,
-                http://delfawebs.desarrollodesoftwareamedida.com,
-                http://instinto.desarrollodesoftwareamedida.com,
-                http://vicofrascolla.desarrollodesoftwareamedida.com,
-                http://unionatletica.desarrollodesoftwareamedida.com,
-                http://discere.desarrollodesoftwareamedida.com,
-                http://tuticket.desarrollodesoftwareamedida.com,
-                http://wodproseries.desarrollodesoftwareamedida.com,
-
-				https://delfasoft.desarrollodesoftwareamedida.com,
-                https://delfasport.desarrollodesoftwareamedida.com,
-                https://delfawebs.desarrollodesoftwareamedida.com,
-                https://instinto.desarrollodesoftwareamedida.com,
-                https://vicofrascolla.desarrollodesoftwareamedida.com,
-                https://unionatletica.desarrollodesoftwareamedida.com,
-                https://discere.desarrollodesoftwareamedida.com,
-                https://tuticket.desarrollodesoftwareamedida.com,
-                https://wodproseries.desarrollodesoftwareamedida.com,
+				https://testdelfasoft.desarrollodesoftwareamedida.com,
+                https://testdelfasport.desarrollodesoftwareamedida.com,
+                https://testdelfawebs.desarrollodesoftwareamedida.com,
+                https://testinstinto.desarrollodesoftwareamedida.com,
+                https://testvicofrascolla.desarrollodesoftwareamedida.com,
+                https://testunionatletica.desarrollodesoftwareamedida.com,
+                https://testdiscere.desarrollodesoftwareamedida.com,
+                https://testtuticket.desarrollodesoftwareamedida.com,
+                https://testwodproseries.desarrollodesoftwareamedida.com,
 
                 https://vicofrascolla.com,
                 https://www.vicofrascolla.com,
@@ -233,10 +223,7 @@
                 https://www.unionatletica.com.uy,
 
                 https://delfasoft.com,
-                https://www.delfasoft.com,
-                https://apps.delfasoft.com,
-                https://www.apps.delfasoft.com,
-                https://tempus.delfasoft.com
+                https://www.delfasoft.com
             </param-value>
         </init-param>
         <init-param>

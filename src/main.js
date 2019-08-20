@@ -31,12 +31,12 @@ new Vue({
     mounted () {
         // 👤 Usuario logueado
         if (localStorage.getItem('wdfsUsr')) {
-            this.$store.commit('ingresar', JSON.parse(localStorage.getItem('dfsUsr')))
+            this.$store.commit('ingresar', JSON.parse(localStorage.getItem('wdfsUsr')))
         }
 
         // Proyecto seleccionado
         if (localStorage.getItem('wdfsPrj')) {
-            this.$store.commit('seleccionarProyecto', JSON.parse(localStorage.getItem('dfsPrj')))
+            this.$store.commit('seleccionarProyecto', JSON.parse(localStorage.getItem('wdfsPrj')))
         }
 
         // 📐 Redimención del sitio

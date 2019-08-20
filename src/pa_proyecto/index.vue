@@ -199,6 +199,9 @@ export default {
         padding: .5em;
         color: #333;
         font-size: 1em;
+        width: 25em;
+        display: block;
+        overflow-x: auto;
     }
 
     li a:hover {
@@ -251,6 +254,18 @@ export default {
 
     input::-webkit-file-upload-button {
         visibility: hidden;
+    }
+
+    @media (max-width: 780px) {
+        li span, li a {
+            width: calc(100vw - 25em)
+        }
+    }
+
+    @media (max-width: 570px) {
+        li span, li a {
+            width: calc(100vw - 20em)
+        }
     }
 </style>
 
