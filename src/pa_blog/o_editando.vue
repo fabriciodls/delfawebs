@@ -129,7 +129,9 @@ export default {
     }),
 
     created () {
-        this.articulo = this.entrada
+        if (this.entrada) {
+            this.articulo = this.entrada
+        }
         const ahora = new Date()
         this.ahora = `${ahora.getFullYear()}-${
             ahora.getMonth() >= 9 ? '': '0'
