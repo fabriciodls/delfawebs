@@ -5,7 +5,7 @@ export default (componente, nombre) => {
     .post(`${process.env.API_URL}dfs60023`,{
         frontUser: componente.$store.state.usuario,
         proyectoEnc: componente.$store.state.proyecto.idEnc,
-        idEnc: componente.borrando
+        idEnc: componente.estado.borrando
     },{
         headers: {
             'Content-Type': 'application/json;charset=UTF-8'
@@ -14,7 +14,7 @@ export default (componente, nombre) => {
         withCredentials: true
     })
     .then(response => {
-        componente.borrando = null
+        componente.estado.borrando = null
         if (!response.data) {
             componente.error = 'No hay retorno del servicio'
         } else if (!response.data.ErrorSDT) {
@@ -41,7 +41,7 @@ export default (componente, nombre) => {
 
     })
     .catch(error => {
-        componente.borrando = null
+        componente.estado.borrando = null
         componente.error = error
     })
 }

@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default (componente) => {
-    componente.cargandoImg = true
+    componente.subiendoImg = true
     componente.imagen.archivo = componente.imagen.archivo.split(',')[1]
     axios
     .post(`${process.env.API_URL}dfs60004`,{
@@ -15,7 +15,7 @@ export default (componente) => {
         withCredentials: true
     })
     .then(response => {
-        componente.cargandoImg = false
+        componente.subiendoImg = false
         if (!response.data) {
             componente.error = 'No hay retorno de login'
         } else if (!response.data.ErrorSDT) {
@@ -31,7 +31,7 @@ export default (componente) => {
 
     })
     .catch(error => {
-        componente.cargandoImg = false
+        componente.subiendoImg = false
         componente.error = error
     })
 }

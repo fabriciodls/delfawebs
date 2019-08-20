@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default (componente) => {
     componente.cargando = true
-    componente.paraAgregar = false
+    componente.estado.paraAgregar = false
 
     if (componente.articulo.imagen.url && componente.articulo.imagen.url.includes('http')) {
         componente.articulo.imagen.activo = true
