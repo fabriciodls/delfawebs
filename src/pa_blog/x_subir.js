@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default (componente) => {
+export default (componente, callback) => {
     componente.subiendoImg = true
     componente.imagen.archivo = componente.imagen.archivo.split(',')[1]
     axios
@@ -22,8 +22,8 @@ export default (componente) => {
             componente.error = 'No hay retorno del error'
         } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
-            componente.articulo.imagen.url = response.data.url
             componente.error = null
+            callback(response.data.url)
 
         } else {
             componente.error = response.data.ErrorSDT.ErrorDescription

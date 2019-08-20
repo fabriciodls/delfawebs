@@ -81,6 +81,10 @@ export default {
         margin-bottom: .5em;
     }
 
+    li > *{
+        margin: 0 .5em .5em 0;
+    }
+
     .done {
         color: green;
     }

@@ -22,6 +22,16 @@
                     : null
             }"/>
             <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
+            <button v-if="!articulo.imagenAlternativa.activo" @click="articulo.imagenAlternativa.activo = true">
+                <i class="add"/>
+            </button>
+            <input v-if="articulo.imagenAlternativa.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+                @change="cargarImagenAlternativa" :style="{
+                backgroundImage: articulo.imagenAlternativa.url
+                    ? `url(${articulo.imagenAlternativa.url})` 
+                    : null
+            }"/>
+            <input v-if="articulo.imagenAlternativa.activo" v-model="articulo.imagenAlternativa.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
         </div>
 
         <div>
@@ -82,6 +92,7 @@ export default {
             orientacion: 0
         },
         subiendoImg: false,
+        imagenAlternativa: false,
 
         // Para editar o agregar
         ahora: null,
@@ -93,6 +104,10 @@ export default {
             inicio: null,
             fin: null,
             imagen: {
+                activo: false,
+                url: null
+            },
+            imagenAlternativa: {
                 activo: false,
                 url: null
             },
@@ -134,7 +149,27 @@ export default {
                 this.imagen.archivo = reader.result
                 this.imagen.ext = file.name.split('.').reverse()[0]
                 this.imagen.nombre = file.name
-                x_subir (this)
+                x_subir (this, (url) => {
+                    this.articulo.imagen.url = url
+                })
+            }
+
+            if (file) {
+                reader.readAsDataURL(file)
+            }
+        },
+
+        cargarImagenAlternativa (ev) {
+            const file = ev.target.files[0]
+            const reader = new FileReader()
+
+            reader.onloadend = () => {
+                this.imagen.archivo = reader.result
+                this.imagen.ext = file.name.split('.').reverse()[0]
+                this.imagen.nombre = file.name
+                x_subir (this, (url) => {
+                    this.articulo.imagenAlternativa.url = url
+                })
             }
 
             if (file) {
@@ -161,6 +196,12 @@ export default {
         },
 
         confirmar () {
+            if (this.parrafoPrevio) {
+                this.articulo.parrafos.push({
+                    idEnc: 'ultimo',
+                    texto: this.parrafoPrevio
+                })
+            }
             this.$emit('confirmar', this.articulo)
         },
 

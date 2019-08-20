@@ -15,8 +15,7 @@
         <ul>
             <!-- Agregar -->
             <o-editando v-if="estado.paraAgregar"
-                :entrada="articulo" :estado="estado"
-                @confirmar="agregar" @cancelar="cancelar()"/>
+                :estado="estado" @confirmar="agregar" @cancelar="cancelar()"/>
 
             <!-- Sin Artículos -->
             <li v-if="(!articulos || articulos.length === 0) && !cargando">
@@ -29,15 +28,13 @@
                 :entrada="a" :estado="estado" 
                 @editar="prepararEditar(a)" @borrar="borrar(a)"
                 @confirmar="confirmarEdicion" @cancelar="cancelar()"/>
-            <!-- <component :is="'o-articulo'" :entrada="articulos[0]"></component> -->
         </ul>
     </article>
 </template>
 
 <script>
 import x_traer from './x_traer'
-import x_subir from './x_subir'
-import x_guardar from './x_guardar'
+import x_agregar from './x_agregar'
 import x_editar from './x_editar'
 import x_borrar from './x_borrar'
 
@@ -58,49 +55,13 @@ export default {
         hayMas: false,
         ultimo: '',
 
-        // para subir imagen
-        imagen: {
-            archivo: null,
-            ext: '',
-            nombre: '',
-            orientacion: 0
-        },
-        subiendoImg: false,
-
         // Para editar o agregar
         estado: {
             paraAgregar: false,
             paraEditar: null,
             editando: false,
             borrando: null,
-        },
-
-        articulo: {
-            idEnc: null,
-            activo: true,
-            pagina: '/',
-            titulo: '',
-            inicio: null,
-            fin: null,
-            imagen: {
-                activo: false,
-                url: null
-            },
-            video: {
-                activo: false,
-                url: null,
-                poster: null,
-                tipo: 'video/mp4'
-            },
-            boton: {
-                activo: false,
-                texto: null,
-                tipo: 1,
-                accion: null
-            },
-            parrafos: []
-        },
-        parrafoPrevio: null
+        }
     }),
 
     created () {
@@ -108,103 +69,33 @@ export default {
     },
 
     methods: {
-        cargarImagen (ev) {
-            const file = ev.target.files[0]
-            const reader = new FileReader()
-
-            reader.onloadend = () => {
-                this.imagen.archivo = reader.result
-                this.imagen.ext = file.name.split('.').reverse()[0]
-                this.imagen.nombre = file.name
-                x_subir (this)
-            }
-
-            if (file) {
-                reader.readAsDataURL(file)
-            }
-        },
-
-        agregarParrafo (e) {
-            e.preventDefault()
-            const ahora = new Date()
-            this.articulo.parrafos.push({
-                idEnc: `e${ahora.getHours()}${ahora.getMinutes()}${ahora.getSeconds()}${ahora.getMilliseconds()}`,
-                texto: this.parrafoPrevio
-            })
-            this.parrafoPrevio = ''
-        },
-
-        borrarParrafo () {
-            this.articulo.parrafos.forEach((p,i) => {
-                if (!p.texto || p.texto.length === 0) {
-                    this.articulo.parrafos.splice(i, 1)
-                }
-            })
-        },
-
         cancelar () {
             this.estado.paraEditar = false
             this.estado.paraAgregar = false
-
-            this.imagen = {
-                archivo: null,
-                ext: '',
-                nombre: '',
-                orientacion: 0
-            }
-
-            this.articulo = {
-                idEnc: null,
-                activo: true,
-                pagina: '/',
-                titulo: '',
-                inicio: this.ahora,
-                fin: '2030-01-01',
-                imagen: {
-                    activo: false,
-                    url: null
-                },
-                video: {
-                    activo: false,
-                    url: null,
-                    poster: null,
-                    tipo: 'video/mp4'
-                },
-                boton: {
-                    activo: false,
-                    texto: null,
-                    tipo: 1,
-                    accion: null
-                },
-                parrafos: []
-            }
-            this.parrafoPrevio = null
         },
 
         agregar (a) {
-            this.articulo = a
-            x_guardar (this)
+            x_agregar (this, a)
         },
 
         prepararEditar (a) {
-            this.articulo = {
-                idEnc: a.idEnc,
-                activo: a.activo,
-                pagina: a.pagina,
-                titulo: a.titulo,
-                inicio: a.inicio.split('/').reverse().join('-'),
-                fin: a.fin.split('/').reverse().join('-'),
-                imagen: a.imagen,
-                video: a.video,
-                boton: a.boton,
-                parrafos: a.parrafos
-            }
+            // this.articulo = {
+            //     idEnc: a.idEnc,
+            //     activo: a.activo,
+            //     pagina: a.pagina,
+            //     titulo: a.titulo,
+            //     inicio: a.inicio.split('/').reverse().join('-'),
+            //     fin: a.fin.split('/').reverse().join('-'),
+            //     imagen: a.imagen,
+            //     video: a.video,
+            //     boton: a.boton,
+            //     parrafos: a.parrafos
+            // }
             this.estado.paraEditar = a.idEnc
         },
 
         confirmarEdicion (a) {
-            this.articulo = a
-            x_editar (this)
+            x_editar (this, a)
         },
 
         borrar (a) {
