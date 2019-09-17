@@ -16,6 +16,12 @@ export default (componente, articulo) => {
         articulo.imagenAlternativa.activo = false
     }
 
+    if (articulo.imagenAlternativa2.url && articulo.imagenAlternativa2.url.includes('http')) {
+        articulo.imagenAlternativa2.activo = true
+    } else {
+        articulo.imagenAlternativa2.activo = false
+    }
+
     if (articulo.video.url && articulo.video.url.includes('http') && articulo.video.poster && articulo.video.poster.includes('http')) {
         articulo.video.activo = true
     } else {

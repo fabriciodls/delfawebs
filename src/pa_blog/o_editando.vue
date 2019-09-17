@@ -21,7 +21,10 @@
                     ? `url(${articulo.imagen.url})` 
                     : null
             }"/>
-            <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
+            <input v-model="articulo.imagen.url" type="url" aria-label="Url de la imágen" 
+                title="Url de la imágen" placeholder="url de la imágen">
+
+            <!-- Imagen alternativa -->
             <button v-if="!articulo.imagenAlternativa.activo" @click="articulo.imagenAlternativa.activo = true">
                 <i class="add"/>
             </button>
@@ -31,7 +34,21 @@
                     ? `url(${articulo.imagenAlternativa.url})` 
                     : null
             }"/>
-            <input v-if="articulo.imagenAlternativa.activo" v-model="articulo.imagenAlternativa.url" type="url" aria-label="Url de la imágen" title="Url de la imágen" placeholder="url de la imágen">
+            <input v-if="articulo.imagenAlternativa.activo" v-model="articulo.imagenAlternativa.url" type="url" aria-label="Url de la imágen" 
+                title="Url de la imágen" placeholder="url de la imágen">
+
+            <!-- Imagen alternativa 2 -->
+            <button v-if="!articulo.imagenAlternativa2.activo" @click="articulo.imagenAlternativa2.activo = true">
+                <i class="add"/>
+            </button>
+            <input v-if="articulo.imagenAlternativa2.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+                @change="cargarImagenAlternativa2" :style="{
+                backgroundImage: articulo.imagenAlternativa2.url
+                    ? `url(${articulo.imagenAlternativa2.url})` 
+                    : null
+            }"/>
+            <input v-if="articulo.imagenAlternativa2.activo" v-model="articulo.imagenAlternativa2.url" type="url" aria-label="Url de la imágen" 
+                title="Url de la imágen" placeholder="url de la imágen">
         </div>
 
         <div>
@@ -93,6 +110,7 @@ export default {
         },
         subiendoImg: false,
         imagenAlternativa: false,
+        imagenAlternativa2: false,
 
         // Para editar o agregar
         ahora: null,
@@ -108,6 +126,10 @@ export default {
                 url: null
             },
             imagenAlternativa: {
+                activo: false,
+                url: null
+            },
+            imagenAlternativa2: {
                 activo: false,
                 url: null
             },
@@ -171,6 +193,24 @@ export default {
                 this.imagen.nombre = file.name
                 x_subir (this, (url) => {
                     this.articulo.imagenAlternativa.url = url
+                })
+            }
+
+            if (file) {
+                reader.readAsDataURL(file)
+            }
+        },
+
+        cargarImagenAlternativa2 (ev) {
+            const file = ev.target.files[0]
+            const reader = new FileReader()
+
+            reader.onloadend = () => {
+                this.imagen.archivo = reader.result
+                this.imagen.ext = file.name.split('.').reverse()[0]
+                this.imagen.nombre = file.name
+                x_subir (this, (url) => {
+                    this.articulo.imagenAlternativa2.url = url
                 })
             }
 
