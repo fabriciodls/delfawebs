@@ -26,7 +26,7 @@
                     <span v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc">{{p.nombre}}</span>
                     <input v-if="p.proyectoEnc === paraEditar && editando !== p.proyectoEnc" type="text" 
                         v-model="url" @keyup.enter="editar(p.proyectoEnc)">
-                    <a v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc" :href="p.url"  draggable="false">{{p.url}}</a>
+                    <span v-else-if="editando !== p.proyectoEnc && borrando !== p.proyectoEnc">{{p.url}}</span>
                 </div>
 
                 <!-- Aceptar Edición -->
@@ -186,6 +186,11 @@ export default {
         padding: 0 1em;
         height: 5em;
         transition: all .3s ease;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
     }
 
     .nombre {
