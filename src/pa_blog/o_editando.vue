@@ -6,6 +6,9 @@
                 <option value="/">Home</option>
                 <option value="/blog">Blog</option>
             </select>
+            <span>Orden: </span>
+            <input v-model="articulo.orden" type="number" min="0" 
+                style="width: 3em;" aria-label="Orden de prioridad" title="Orden de prioridad" placeholder="Orden de prioridad">
         </div>
 
         <div>
@@ -116,6 +119,7 @@ export default {
         ahora: null,
         articulo: {
             idEnc: null,
+            orden: 0,
             activo: true,
             pagina: '/',
             titulo: '',
