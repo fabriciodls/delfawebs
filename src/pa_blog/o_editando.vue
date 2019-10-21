@@ -5,6 +5,10 @@
             <select v-model="articulo.pagina">
                 <option value="/">Home</option>
                 <option value="/blog">Blog</option>
+                <option value="/personas">Atletas</option>
+                <option value="/puntajes">Marcas</option>
+                <option value="/eventos">Eventos</option>
+                <option value="/startups">StartUps</option>
             </select>
             <span>Orden: </span>
             <input v-model="articulo.orden" type="number" min="0" 
