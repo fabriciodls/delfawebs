@@ -9,6 +9,7 @@
                 <option value="/puntajes">Marcas</option>
                 <option value="/eventos">Eventos</option>
                 <option value="/startups">StartUps</option>
+                <option value="/asesoramiento">Asesoramiento</option>
             </select>
             <span>Orden: </span>
             <input v-model="articulo.orden" type="number" min="0" 
