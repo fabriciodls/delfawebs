@@ -1,0 +1,27 @@
+
+
+
+&script += "var entrada = document.createElement('input');"
+&script += "entrada.setAttribute('type','file');"
+&script += "entrada.setAttribute('accept', 'image/*');"
+&script += "entrada.setAttribute('onchange', 'cargarImagen(event)');"
+&script += "var formu = document.getElementById('MAINFORM');"
+&script += "formu.appendChild(entrada);"
+
+&script += "function cargarImagen (ev) {"
+&script += "    console.log('entra');"
+&script += "    console.log(ev);"
+&script += "    const file = ev.target.files[0];"
+&script += "    const reader = new FileReader();"
+
+&script += "    reader.onloadend = () => {"
+&script += "        document.getElementById('vBASE64').innerHTML = reader.result.split(',')[1];"
+&script += "        document.getElementById('vEXT').value = file.name.split('.').reverse()[0];"
+&script += "        document.getElementById('vNOMBRE').value = file.name;"
+&script += "    };"
+
+&script += "    if (file) {"
+&script += "        reader.readAsDataURL(file);"
+&script += "    };"
+&script += "};"
+
