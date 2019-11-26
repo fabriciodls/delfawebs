@@ -2,10 +2,6 @@
     <article>
         <h2>Escriba aquí los artículos</h2>
 
-        <!-- Dinámica de la carga -->
-        <barra v-if="cargando" />
-        <span v-else-if="error" class="error">{{error}}</span>
-
         <!-- Botón de agregar -->
         <button v-if="!estado.paraAgregar && !cargando" class="agregar" @click="estado.paraAgregar = true" :disabled="estado.paraEditar ? 'disabled': null">
             <span>Agregar</span>
@@ -29,6 +25,11 @@
                 @editar="prepararEditar(a)" @borrar="borrar(a)"
                 @confirmar="confirmarEdicion" @cancelar="cancelar()"/>
         </ul>
+
+        <!-- Dinámica de la carga -->
+        <barra v-if="cargando" />
+        <span v-else-if="error" class="error">{{error}}</span>
+        <button v-else-if="hayMas" class="accion" @click="traerMas()">VER MÁS</button>
     </article>
 </template>
 
@@ -107,6 +108,10 @@ export default {
                 this.estado.borrando = null
             }
         },
+
+        traerMas () {
+            x_traer(this)
+        }
     }
 }
 </script>
@@ -135,5 +140,10 @@ export default {
         padding: 1.5em;
         color: #555;
         text-align: center;
+    }
+
+    .accion {
+        display: flex;
+        margin: 0 auto;
     }
 </style>
