@@ -1,6 +1,6 @@
 {
 	"name": "delfawebs",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"env": "test",
 	"private": true,
 	"scripts": {

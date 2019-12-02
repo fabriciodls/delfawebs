@@ -1,6 +1,6 @@
 <template>
     <article>
-        <i aria-hidden="true" class="person"/>
+        <i aria-hidden="true" class="person icono"/>
         <label>
             <span>Email</span>
             <input ref="email" v-model="email" @keypress.enter="ingresar()"
@@ -13,7 +13,7 @@
             <button :alt="`${visible ? 'ocultar': 'mostrar'} contraseña`"
                 :title="`${visible ? 'ocultar': 'mostrar'} contraseña`"
                 @click="mostrarOcultarPass()" class="visible">
-                <i :class="`visibility${visible ? '': '_off'}`" aria-hidden="false"/>
+                <i :class="`visibility${visible ? '': '_off'} icono`" aria-hidden="false"/>
             </button>
         </label>
         <span class="error" v-if="error">{{error}}</span>

@@ -11,7 +11,7 @@
                 <router-link v-for="r in routes" :key="r.path" v-show="!r.admin || usuario.admin" :to="r.path" draggable="false">{{r.name}}</router-link>
             </nav>
             <button v-if="usuario.nombre" class="usuario" @click="salir()">
-                <i aria-hidden="true" class="person"/>
+                <i aria-hidden="true" class="person icono"/>
                 {{usuario.nombre}} | salir
             </button>
         </header>

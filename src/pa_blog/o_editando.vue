@@ -164,7 +164,13 @@ export default {
         parrafoPrevio: null,
         editor: ClassicEditor,
         editorConfig: {
-            // The configuration of the editor.
+            toolbar: [
+                'heading', 
+                '|', 'bold', 'italic', 'bulletedList', 'numberedList',
+                '|', 'indent', 'outdent', 
+                '|', 'blockQuote', 'link', 'insertTable', 
+                '|', 'undo', 'redo' ],
+            language: 'es'
         }
     }),
 
