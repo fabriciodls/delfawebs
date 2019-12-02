@@ -32,31 +32,31 @@
                 <!-- Aceptar Edición -->
                 <button v-if="p.proyectoEnc === paraEditar  && editando !== p.proyectoEnc" aria-label="Aceptar cambios"
                     @click="editar(p.proyectoEnc)">
-                    <i aria-hidden="true" class="done"/>
+                    <i aria-hidden="true" class="done icono"/>
                 </button>
 
                 <!-- Editar -->
                 <button v-else-if="borrando !== p.proyectoEnc" aria-label="Editar"
                     @click="paraEditar = p.proyectoEnc; nombre = p.nombre; url = p.url; logo = p.imagen">
-                    <i aria-hidden="true" class="edit"/>
+                    <i aria-hidden="true" class="edit icono"/>
                 </button>
 
                 <!-- Cancelar Edición -->
                 <button v-if="p.proyectoEnc === paraEditar" aria-label="Rechazar los cambios"
                     @click="paraEditar = null; nombre = null; logo = null">
-                    <i aria-hidden="true" class="close"/>
+                    <i aria-hidden="true" class="close icono"/>
                 </button>
 
                 <!-- Borrar -->
                 <button v-else-if="borrando !== p.proyectoEnc" aria-label="Editar"
                     @click="borrar(p.proyectoEnc, p.nombre)">
-                    <i aria-hidden="true" class="delete"/>
+                    <i aria-hidden="true" class="delete icono"/>
                 </button>
 
                 <!-- Seleccionar -->
                 <button v-if="p.proyectoEnc !== paraEditar && borrando !== p.proyectoEnc" aria-label="Seleccionar el proyecto" 
                 @click="selecciona(p)">
-                    <i aria-hidden="true" class="play_arrow"/>
+                    <i aria-hidden="true" class="play_arrow icono"/>
                 </button>
             </li>
             <li v-if="paraAgregar">
@@ -71,18 +71,18 @@
 
                 <button v-if="!agregando" aria-label="Aceptar cambios"
                     @click="agregar()">
-                    <i aria-hidden="true" class="done"/>
+                    <i aria-hidden="true" class="done icono"/>
                 </button>
 
                 <button v-if="!agregando" aria-label="Rechazar los cambios"
                     @click="paraAgregar = false; nombre = null; logo = null">
-                    <i aria-hidden="true" class="close"/>
+                    <i aria-hidden="true" class="close icono"/>
                 </button>
             </li>
         </ul>
         <button v-if="!paraAgregar && !paraEditar && !cargando" class="agregar" @click="paraAgregar = true">
             <span>Agregar</span>
-            <i aria-hidden="true" class="add"/>
+            <i aria-hidden="true" class="add icono"/>
         </button>
     </article>
 </template>
@@ -191,6 +191,7 @@ export default {
     img {
         width: 60px;
         height: 60px;
+        object-fit: contain;
     }
 
     .nombre {

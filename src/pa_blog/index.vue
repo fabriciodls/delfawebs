@@ -5,7 +5,7 @@
         <!-- Botón de agregar -->
         <button v-if="!estado.paraAgregar && !cargando" class="agregar" @click="estado.paraAgregar = true" :disabled="estado.paraEditar ? 'disabled': null">
             <span>Agregar</span>
-            <i aria-hidden="true" class="add"/>
+            <i aria-hidden="true" class="add icono"/>
         </button>
 
         <ul>

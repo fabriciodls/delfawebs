@@ -84,7 +84,7 @@ nav a:hover {
     🏠 iconos
 */
 
-i {
+i.icono {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
@@ -99,7 +99,7 @@ i {
     -webkit-font-smoothing: antialiased;
 }
 
-.menu i::after {
+.menu i.icono::after {
     content: 'menu';
     color: #fff;
 }
@@ -128,7 +128,7 @@ i {
     background-color: #000;
 }
 
-.usuario i {
+.usuario i.icono {
     font-size: 19px;
     margin-right: 5px;
 }
@@ -257,18 +257,18 @@ hr {
     color: #444;
 }
 
-.agregar i {
+.agregar i.icono {
     padding: .4em;
     border-radius: 50%;
     background-color: var(--secundary-color);
 }
 
-.agregar:hover i,
-.agregar:focus i {
+.agregar:hover i.icono,
+.agregar:focus i.icono {
     background-color: var(--primary-color);
 }
 
-.agregar i {
+.agregar i.icono {
     color: #fff;
 }
 
@@ -280,12 +280,12 @@ hr {
     color: #aaa;
 }
 
-.agregar:disabled i {
+.agregar:disabled i.icono {
     background-color: #aaa;
 }
 
 .nohay {
-    color: #888;
+    color: rgb(29, 23, 23);
 }
 
 h2 {

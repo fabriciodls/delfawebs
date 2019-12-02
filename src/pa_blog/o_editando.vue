@@ -34,7 +34,7 @@
 
             <!-- Imagen alternativa -->
             <button v-if="!articulo.imagenAlternativa.activo" @click="articulo.imagenAlternativa.activo = true">
-                <i class="add"/>
+                <i class="add icono"/>
             </button>
             <input v-if="articulo.imagenAlternativa.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
                 @change="cargarImagenAlternativa" :style="{
@@ -47,7 +47,7 @@
 
             <!-- Imagen alternativa 2 -->
             <button v-if="!articulo.imagenAlternativa2.activo" @click="articulo.imagenAlternativa2.activo = true">
-                <i class="add"/>
+                <i class="add icono"/>
             </button>
             <input v-if="articulo.imagenAlternativa2.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
                 @change="cargarImagenAlternativa2" :style="{
@@ -73,19 +73,23 @@
                 <option :value="2">Link externo</option>
             </select>
             <input v-model="articulo.boton.accion" type="text" aria-label="Link del botón" title="Link del botón" placeholder="Link del botón">
-            <textarea v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" rows="5" @keyup="borrarParrafo()"></textarea>
-            <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea>
+            
+            <!-- <ckeditor v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" :editor="editor" :config="editorConfig"></ckeditor> -->
+            <ckeditor v-model="parrafoPrevio" :editor="editor" :config="editorConfig"></ckeditor>
+            
+            <!-- <textarea v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" rows="5" @keyup="borrarParrafo()"></textarea>
+            <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea> -->
         </div>
 
         <!-- Confirmando Edición -->
         <div class="botonera">
             <button @click="confirmar()" aria-label="Guardar">
                 <span>Guardar</span>
-                <i aria-hidden="true" class="done"/>
+                <i aria-hidden="true" class="done icono"/>
             </button>
             <button @click="cancelar()" aria-label="Cancelar">
                 <span>Cancelar</span>
-                <i aria-hidden="true" class="close"/>
+                <i aria-hidden="true" class="close icono"/>
             </button>
         </div>
     </li>
@@ -93,6 +97,7 @@
 
 <script>
 import x_subir from './x_subir'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
     name: 'o-editando',
@@ -156,12 +161,19 @@ export default {
             },
             parrafos: []
         },
-        parrafoPrevio: null
+        parrafoPrevio: null,
+        editor: ClassicEditor,
+        editorConfig: {
+            // The configuration of the editor.
+        }
     }),
 
     created () {
         if (this.entrada) {
             this.articulo = this.entrada
+            this.parrafoPrevio = this.entrada.parrafos.map(parrafo => {
+                return parrafo.texto
+            }).join('')
         }
         const ahora = new Date()
         this.ahora = `${ahora.getFullYear()}-${
@@ -228,25 +240,8 @@ export default {
             }
         },
 
-        agregarParrafo (e) {
-            e.preventDefault()
-            const ahora = new Date()
-            this.articulo.parrafos.push({
-                idEnc: `e${ahora.getHours()}${ahora.getMinutes()}${ahora.getSeconds()}${ahora.getMilliseconds()}`,
-                texto: this.parrafoPrevio
-            })
-            this.parrafoPrevio = ''
-        },
-
-        borrarParrafo () {
-            this.articulo.parrafos.forEach((p,i) => {
-                if (!p.texto || p.texto.length === 0) {
-                    this.articulo.parrafos.splice(i, 1)
-                }
-            })
-        },
-
         confirmar () {
+            this.articulo.parrafos = []
             if (this.parrafoPrevio) {
                 this.articulo.parrafos.push({
                     idEnc: 'ultimo',

@@ -14,27 +14,27 @@
                 <option value="h">Hora</option>
             </select>
             <button v-if="editando && !cargandoFormulario" class="borrar" @click="borrar(index)" title="Borrar" aria-label="Borrar">
-                <i aria-hidden="true" class="delete"/>
+                <i aria-hidden="true" class="delete icono"/>
             </button>
         </div>
         <barra v-if="cargandoFormulario"/>
         <span v-else-if="error" class="error">{{error}}</span>
         <div v-else class="botonera">
             <button v-if="editando" class="agregar" @click="agregar()" aria-label="Agregar">
-                <i aria-hidden="true" class="add"/>
+                <i aria-hidden="true" class="add icono"/>
                 <span>Agregar</span>
             </button>
             <button v-else class="editar" @click="editando = true" aria-label="Editar">
                 <span>Editar</span>
-                <i aria-hidden="true" class="edit"/>
+                <i aria-hidden="true" class="edit icono"/>
             </button>
             <button v-if="editando" class="editar" @click="guardar()" aria-label="Guardar">
                 <span>Guardar</span>
-                <i aria-hidden="true" class="done"/>
+                <i aria-hidden="true" class="done icono"/>
             </button>
             <button v-if="editando" class="editar" @click="cancelar()" aria-label="Cancelar">
                 <span>Cancelar</span>
-                <i aria-hidden="true" class="close"/>
+                <i aria-hidden="true" class="close icono"/>
             </button>
         </div>
 

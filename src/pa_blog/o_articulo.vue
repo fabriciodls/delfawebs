@@ -1,6 +1,6 @@
 <template>
     <li>
-        <i :class="entrada.activo ? 'done': 'close'" aria-hidden="true"/>
+        <i :class="entrada.activo ? 'done icono': 'close icono'" aria-hidden="true"/>
         <span class="titulo">{{entrada.titulo}}</span>
         <span class="pagina">{{entrada.pagina}}</span>
 
@@ -29,11 +29,11 @@
         <div v-if="!estado.editando && !estado.borrando" style="margin-left:auto;">
             <button aria-label="Editar" 
                 @click="editar()" :disabled="estado.paraAgregar || estado.paraEditar ? 'disabled': null">
-                <i class="edit" aria-hidden="true"/>
+                <i class="edit icono" aria-hidden="true"/>
             </button>
             <button aria-label="Borrar"
                 @click="borrar()" :disabled="estado.paraAgregar || estado.paraEditar ? 'disabled': null">
-                <i class="delete" aria-hidden="true"/>
+                <i class="delete icono" aria-hidden="true"/>
             </button>
         </div>
     </li>

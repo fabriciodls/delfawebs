@@ -24,6 +24,10 @@ import App from '@/app'
 // 👀 Registrar evento clic del usuario
 // import actividad from '@/actividad'
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
+Vue.use( CKEditor )
+
 new Vue({
     router,
     store,
