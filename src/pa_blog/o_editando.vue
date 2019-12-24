@@ -81,16 +81,12 @@
             <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea> -->
         </div>
 
-        <div>
-            <ul>
-                <li v-for="(ig, index) in articulo.imagenes" :key="index">
-                    <img :src="ig.url" alt="imagen subida">
-                </li>
-                <li>
-                    <input type="file" accept="image/*" aria-label="Subir una de varias imágenes" cleanOrientation="true" title="Subir otra imagen"
-                        @change="cargarImagenesVarias"/>
-                </li>
-            </ul>
+        <div class="multiimagen">
+            <img v-for="(url, index) in articulo.imagenes" :key="index" 
+                :src="url" alt="imagen subida">
+            <spinner-circular v-if="imagenesCargando"/>
+            <input v-else type="file" accept="image/*" aria-label="Subir una de varias imágenes" cleanOrientation="true" title="Subir otra imagen"
+                @change="cargarImagenesVarias"/>
         </div>
 
         <!-- Confirmando Edición -->
@@ -108,8 +104,8 @@
 </template>
 
 <script>
-import x_subir from './x_subir'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import x_subir from './x_subir'
 
 export default {
     name: 'o-editando',
@@ -126,16 +122,10 @@ export default {
     },
 
     data: () => ({
-        // para subir imagen
-        imagen: {
-            archivo: null,
-            ext: '',
-            nombre: '',
-            orientacion: 0
-        },
         subiendoImg: false,
         imagenAlternativa: false,
         imagenAlternativa2: false,
+        imagenesCargando: false,
 
         // Para editar o agregar
         ahora: null,
@@ -205,83 +195,61 @@ export default {
     },
 
     methods: {
-        cargarImagen (ev) {
-            const file = ev.target.files[0]
-            const reader = new FileReader()
-
-            reader.onloadend = () => {
-                this.imagen.archivo = reader.result
-                this.imagen.ext = file.name.split('.').reverse()[0]
-                this.imagen.nombre = file.name
-                x_subir ({
+        async cargarImagen (ev) {
+            try {
+                this.subiendoImg = true
+                this.articulo.imagen.url = await x_subir({
                     frontUser: this.$store.state.usuario,
-                    imagen: this.imagen,
-                })
-                .then ((url) => {
-                    this.articulo.imagen.url = url
-                })
-                .catch (error => {
-                    this.error = error
+                    file: ev.target.files[0]
                 })
             }
-
-            if (file) {
-                reader.readAsDataURL(file)
+            catch (error) {
+                this.error = error
             }
+            this.subiendoImg = false
         },
 
-        cargarImagenAlternativa (ev) {
-            const file = ev.target.files[0]
-            const reader = new FileReader()
-
-            reader.onloadend = () => {
-                this.imagen.archivo = reader.result
-                this.imagen.ext = file.name.split('.').reverse()[0]
-                this.imagen.nombre = file.name
-                x_subir (this, (url) => {
-                    this.articulo.imagenAlternativa.url = url
+        async cargarImagenAlternativa (ev) {
+            try {
+                this.cargarImagenAlternativa = true
+                this.articulo.imagenAlternativa.url = await x_subir({
+                    frontUser: this.$store.state.usuario,
+                    file: ev.target.files[0]
                 })
             }
-
-            if (file) {
-                reader.readAsDataURL(file)
+            catch (error) {
+                this.error = error
             }
+            this.cargarImagenAlternativa = false
         },
 
-        cargarImagenAlternativa2 (ev) {
-            const file = ev.target.files[0]
-            const reader = new FileReader()
-
-            reader.onloadend = () => {
-                this.imagen.archivo = reader.result
-                this.imagen.ext = file.name.split('.').reverse()[0]
-                this.imagen.nombre = file.name
-                x_subir (this, (url) => {
-                    this.articulo.imagenAlternativa2.url = url
+        async cargarImagenAlternativa2 (ev) {
+            try {
+                this.cargarImagenAlternativa2 = true
+                this.articulo.imagenAlternativa2.url = await x_subir({
+                    frontUser: this.$store.state.usuario,
+                    file: ev.target.files[0]
                 })
             }
-
-            if (file) {
-                reader.readAsDataURL(file)
+            catch (error) {
+                this.error = error
             }
+            this.cargarImagenAlternativa2 = false
         },
 
-        cargarImagenesVarias (ev) {
-            const file = ev.target.files[0]
-            const reader = new FileReader()
-
-            reader.onloadend = () => {
-                // this.imagen.archivo = reader.result
-                // this.imagen.ext = file.name.split('.').reverse()[0]
-                // this.imagen.nombre = file.name
-                x_subir (this, (url) => {
-                    this.articulo.imagenes.push(url)
+        async cargarImagenesVarias (ev) {
+            try {
+                this.imagenesCargando = true
+                const url = await x_subir({
+                    frontUser: this.$store.state.usuario,
+                    file: ev.target.files[0]
                 })
+                this.articulo.imagenes.push(url)
             }
-
-            if (file) {
-                reader.readAsDataURL(file)
+            catch (error) {
+                this.error = error
             }
+            this.imagenesCargando = false
         },
 
         confirmar () {
@@ -335,7 +303,7 @@ export default {
         color: green;
     }
 
-    img {
+    img, svg {
         width: 60px;
         height: 60px;
         border-radius: .5em;

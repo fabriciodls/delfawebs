@@ -1,31 +1,42 @@
-import axios from 'axios'
+/*
+    Renderiza un archivo de imagen
+*/
+import axios from '@/axios'
 
-export default entrada => new Promise ((resolve, reject) => {
-    componente.subiendoImg = true
-    componente.imagen.archivo = componente.imagen.archivo.split(',')[1]
-    axios
-    .post(`${process.env.API_URL}dfs60004`, entrada,{
-        headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-        },
-        crossDomain: true,
-        withCredentials: true
-    })
-    .then(response => {
-        if (!response.data) {
-            reject('No hay retorno de login')
-        } else if (!response.data.ErrorSDT) {
-            reject('No hay retorno del error')
-        } else if (response.data.ErrorSDT.ErrorCode === 0) {
+export default ({file, frontUser}) => new Promise ((resolve, reject) => {
+    const reader = new FileReader()
 
-            resolve(response.data.url)
+    reader.onloadend = () => {
+        const imagen = {
+            archivo: reader.result.split(',')[1],
+            ext: file.name.split('.').reverse()[0],
+            nombre: file.name
+        } 
+        axios
+        .post(`${process.env.API_URL}dfs60004`, {
+            frontUser, imagen,
+        })
+        .then(response => {
+            if (!response.data) {
+                reject('No hay retorno de login')
+            } else if (!response.data.ErrorSDT) {
+                reject('No hay retorno del error')
+            } else if (response.data.ErrorSDT.ErrorCode === 0) {
 
-        } else {
-            reject(response.data.ErrorSDT.ErrorDescription)
-        }
+                resolve(response.data.url)
 
-    })
-    .catch(error => {
-        reject(error)
-    })
+            } else {
+                reject(response.data.ErrorSDT.ErrorDescription)
+            }
+        })
+        .catch(error => {
+            reject(error)
+        })
+    }
+
+    if (file) {
+        reader.readAsDataURL(file)
+    } else {
+        reject('file no funciona')
+    }
 })
