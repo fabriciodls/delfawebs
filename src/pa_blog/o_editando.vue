@@ -23,7 +23,7 @@
 
         <div>
             <spinner-circular v-if="subiendoImg"/>
-            <input v-else type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+            <input v-else type="file" accept="image/*" aria-label="Imagen del blog" cleanOrientation="true"
                 @change="cargarImagen" :style="{
                 backgroundImage: articulo.imagen.url
                     ? `url(${articulo.imagen.url})` 
@@ -36,7 +36,7 @@
             <button v-if="!articulo.imagenAlternativa.activo" @click="articulo.imagenAlternativa.activo = true">
                 <i class="add icono"/>
             </button>
-            <input v-if="articulo.imagenAlternativa.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+            <input v-if="articulo.imagenAlternativa.activo && !subiendoImg" type="file" accept="image/*" aria-label="Imagen alternativa" cleanOrientation="true"
                 @change="cargarImagenAlternativa" :style="{
                 backgroundImage: articulo.imagenAlternativa.url
                     ? `url(${articulo.imagenAlternativa.url})` 
@@ -49,7 +49,7 @@
             <button v-if="!articulo.imagenAlternativa2.activo" @click="articulo.imagenAlternativa2.activo = true">
                 <i class="add icono"/>
             </button>
-            <input v-if="articulo.imagenAlternativa2.activo && !subiendoImg" type="file" accept="image/*" aria-label="Logo del proyecto" cleanOrientation="true"
+            <input v-if="articulo.imagenAlternativa2.activo && !subiendoImg" type="file" accept="image/*" aria-label="Imagen alternativa 2" cleanOrientation="true"
                 @change="cargarImagenAlternativa2" :style="{
                 backgroundImage: articulo.imagenAlternativa2.url
                     ? `url(${articulo.imagenAlternativa2.url})` 
@@ -79,6 +79,18 @@
             
             <!-- <textarea v-for="p in articulo.parrafos" :key="p.idEnc" v-model="p.texto" rows="5" @keyup="borrarParrafo()"></textarea>
             <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea> -->
+        </div>
+
+        <div>
+            <ul>
+                <li v-for="(ig, index) in articulo.imagenes" :key="index">
+                    <img :src="ig.url" alt="imagen subida">
+                </li>
+                <li>
+                    <input type="file" accept="image/*" aria-label="Subir una de varias imágenes" cleanOrientation="true" title="Subir otra imagen"
+                        @change="cargarImagenesVarias"/>
+                </li>
+            </ul>
         </div>
 
         <!-- Confirmando Edición -->
@@ -159,7 +171,8 @@ export default {
                 tipo: 1,
                 accion: null
             },
-            parrafos: []
+            parrafos: [],
+            imagenes: []
         },
         parrafoPrevio: null,
         editor: ClassicEditor,
@@ -200,8 +213,15 @@ export default {
                 this.imagen.archivo = reader.result
                 this.imagen.ext = file.name.split('.').reverse()[0]
                 this.imagen.nombre = file.name
-                x_subir (this, (url) => {
+                x_subir ({
+                    frontUser: this.$store.state.usuario,
+                    imagen: this.imagen,
+                })
+                .then ((url) => {
                     this.articulo.imagen.url = url
+                })
+                .catch (error => {
+                    this.error = error
                 })
             }
 
@@ -238,6 +258,24 @@ export default {
                 this.imagen.nombre = file.name
                 x_subir (this, (url) => {
                     this.articulo.imagenAlternativa2.url = url
+                })
+            }
+
+            if (file) {
+                reader.readAsDataURL(file)
+            }
+        },
+
+        cargarImagenesVarias (ev) {
+            const file = ev.target.files[0]
+            const reader = new FileReader()
+
+            reader.onloadend = () => {
+                // this.imagen.archivo = reader.result
+                // this.imagen.ext = file.name.split('.').reverse()[0]
+                // this.imagen.nombre = file.name
+                x_subir (this, (url) => {
+                    this.articulo.imagenes.push(url)
                 })
             }
 
