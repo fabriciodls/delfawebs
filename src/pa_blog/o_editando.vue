@@ -81,13 +81,9 @@
             <textarea v-model="parrafoPrevio" rows="5" @keypress.enter="agregarParrafo"></textarea> -->
         </div>
 
-        <div class="multiimagen">
-            <img v-for="(url, index) in articulo.imagenes" :key="index" 
-                :src="url" alt="imagen subida">
-            <spinner-circular v-if="imagenesCargando"/>
-            <input v-else type="file" accept="image/*" aria-label="Subir una de varias imágenes" cleanOrientation="true" title="Subir otra imagen"
-                @change="cargarImagenesVarias"/>
-        </div>
+        <!-- Varias imágenes -->
+        <o-multi-imagen :entrada="articulo.imagenes" 
+        @cambia="imagenes => cambiarImagenesVarias(imagenes)"/>
 
         <!-- Confirmando Edición -->
         <div class="botonera">
@@ -111,7 +107,8 @@ export default {
     name: 'o-editando',
 
     components: {
-        spinnerCircular: () => import('@/assets/spinnerCircular')
+        spinnerCircular: () => import('@/assets/spinnerCircular'),
+        oMultiImagen: () => import('./o_multiImagen')
     },
 
     props: {
@@ -237,19 +234,8 @@ export default {
             this.cargarImagenAlternativa2 = false
         },
 
-        async cargarImagenesVarias (ev) {
-            try {
-                this.imagenesCargando = true
-                const url = await x_subir({
-                    frontUser: this.$store.state.usuario,
-                    file: ev.target.files[0]
-                })
-                this.articulo.imagenes.push(url)
-            }
-            catch (error) {
-                this.error = error
-            }
-            this.imagenesCargando = false
+        cambiarImagenesVarias (imagenes) {
+            this.articulo.imagenes = imagenes
         },
 
         confirmar () {
