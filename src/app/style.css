@@ -99,7 +99,7 @@ i.icono {
     -webkit-font-smoothing: antialiased;
 }
 
-.menu i.icono::after {
+.menu i::after {
     content: 'menu';
     color: #fff;
 }

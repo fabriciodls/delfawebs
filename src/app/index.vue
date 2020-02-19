@@ -2,7 +2,7 @@
     <main>
         <header>
             <button v-if="ancho <= 900" aria-label="Menú" class="menu" @click="menu = true">
-                <i aria-hidden="true" class="more_horiz"/>
+                <i aria-hidden="true" class="icono"/>
             </button>
             <img v-if="proyecto && proyecto.logo" :src="proyecto.logo" alt="Logo del proyecto" class="logo" draggable="false">
             <h1 v-show="ancho <= 900">{{titulo}}</h1>

@@ -16,7 +16,7 @@ const des = {
 */
 const test = {
     apiUrl: 'https://testapps.desarrollodesoftwareamedida.com/testdelfawebs/rest/',
-    routerMode: true,
+    routerMode: false,
     publicPath: './',
 }
 
